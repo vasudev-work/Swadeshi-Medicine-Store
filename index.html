@@ -56,17 +56,18 @@ a{color:var(--accent-strong)}
   backdrop-filter:blur(12px); border-bottom:1px solid var(--line);
 }
 .brand{display:flex; align-items:center; gap:9px; min-width:0; text-decoration:none; color:inherit}
+.brand>span{min-width:0}
 .logo{
   width:34px; height:34px; border-radius:11px; flex:none;
   background:linear-gradient(160deg,var(--accent),var(--accent-strong));
   color:var(--accent-ink); display:grid; place-items:center;
   font-weight:800; font-size:15px; letter-spacing:.02em;
 }
-.brand-name{font-weight:700; font-size:15px; letter-spacing:-.01em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.brand-name{display:block; font-weight:700; font-size:15px; letter-spacing:-.01em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
 .brand-sub{display:block; font-weight:500; font-size:11px; color:var(--muted); letter-spacing:.02em}
 .topbar .spacer{flex:1}
 .pill{
-  display:inline-flex; align-items:center; gap:6px;
+  display:inline-flex; align-items:center; gap:6px; flex:none; white-space:nowrap;
   min-height:36px; padding:0 12px; border-radius:var(--r-pill);
   background:var(--surface2); border:1px solid var(--line); color:var(--text);
   font-size:13px; font-weight:600; cursor:pointer;
@@ -126,7 +127,7 @@ main{display:block}
 
 /* ---------- carousel ---------- */
 .carousel{
-  display:flex; gap:12px; overflow-x:auto; padding:0 14px 6px;
+  display:flex; align-items:flex-start; gap:12px; overflow-x:auto; padding:0 14px 6px;
   scroll-snap-type:x proximity; scrollbar-width:none;
 }
 .carousel::-webkit-scrollbar{display:none}
@@ -345,6 +346,12 @@ main{display:block}
   .sheet.open{transform:translate(-50%,-50%) scale(1); opacity:1; pointer-events:auto}
   .sheet .grab{display:none}
   .rows{padding:0 14px}
+}
+@media (max-width:430px){
+  .brand-sub{display:none}
+  .topbar .pill{padding:0 10px; font-size:12.5px}
+  .topbar .pill svg:first-child{display:none}
+  .brand-name{font-size:13.5px}
 }
 @media (prefers-reduced-motion:reduce){
   *{transition:none !important; animation:none !important}
@@ -629,7 +636,7 @@ const META = {"githubUser": "vasudev-work"};
   function hue(name) {
     var h = 0;
     for (var i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) % 360;
-    return h;
+    return 18 + (h % 205);
   }
   function thumb(name, cls) {
     var h = hue(name);
@@ -713,7 +720,7 @@ const META = {"githubUser": "vasudev-work"};
           '<svg viewBox="0 0 24 24" fill="' + (isSaved(p.sr) ? 'currentColor' : 'none') + '" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 18l-5.9 3 1.2-6.5L2.5 9.9 9.1 9z"/></svg>' +
         '</button>' +
       '</div>' +
-      '<p>' + esc(b.brand) + ' is ' + (b.country === 'India' ? 'an Indian brand' : 'a ' + b.country + ' brand') + '. Jan Aushadhi price: ' + priceOf(p) + ' for ' + esc(p.s) + '.</p>' +
+      '<p>' + esc(b.brand) + ' is owned by ' + esc(b.owner) + ' (' + esc(b.country) + '). Jan Aushadhi price: ' + priceOf(p) + ' for ' + esc(p.s) + '.</p>' +
       '<div class="actions">' +
         '<button class="btn" data-detail="' + p.sr + '" data-brand="' + esc(b.brand) + '">Details</button>' +
         '<button class="btn" data-price="' + p.sr + '">Jan Aushadhi</button>' +
