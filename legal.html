@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-accent="green">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#121212">
+<title>Legal, privacy and terms — Swadeshi Medicine Store</title>
+<meta name="description" content="Privacy policy, terms, cookie statement, accessibility, security and responsible disclosure for the Swadeshi Medicine Store page.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2301875F'/%3E%3Ctext x='32' y='44' font-size='34' font-family='sans-serif' font-weight='700' text-anchor='middle' fill='%23fff'%3E%E0%A4%B8%3C/text%3E%3C/svg%3E">
+<style>
+/* Swadeshi Medicine Store - single file stylesheet */
+:root{
+  --bg:#121212; --surface:#1E1E1E; --surface2:#2A2A2A; --line:#2C2C2C;
+  --text:#E8EAED; --muted:#9AA0A6;
+  --accent:#01875F; --accent-strong:#00A173; --accent-ink:#04140E;
+  --amber:#F5A623; --amber-line:#7A5312;
+  --r-card:20px; --r-inner:14px; --r-pill:999px;
+  --shadow:0 8px 28px rgba(0,0,0,.38);
+  --sidebar:224px;
+}
+html[data-theme="light"]{
+  --bg:#F6F7F9; --surface:#FFFFFF; --surface2:#EFF1F4; --line:#E1E3E7;
+  --text:#1A1B1E; --muted:#4A4E54;
+  --accent-strong:#01875F; --accent-ink:#FFFFFF;
+  --amber:#B26A00; --amber-line:#E8C48A;
+  --shadow:0 8px 24px rgba(20,24,31,.10);
+}
+html[data-theme="black"]{
+  --bg:#000000; --surface:#0C0C0C; --surface2:#161616; --line:#222222;
+  --text:#F2F3F5; --muted:#A2A8AE;
+  --shadow:0 8px 28px rgba(0,0,0,.6);
+}
+html[data-accent="saffron"]{ --accent:#EF6C00; --accent-strong:#FB8C00; --accent-ink:#180A00; }
+html[data-accent="indigo"]{ --accent:#1A237E; --accent-strong:#283593; --accent-ink:#FFFFFF; }
+html[data-theme="light"][data-accent="indigo"]{ --accent-strong:#283593; --accent-ink:#FFFFFF; }
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;
+  font-size:15px; line-height:1.5; -webkit-font-smoothing:antialiased;
+  padding-bottom:84px;
+}
+img{max-width:100%; display:block}
+button{font:inherit; color:inherit}
+a{color:var(--accent-strong)}
+:focus-visible{outline:2px solid var(--accent-strong); outline-offset:2px; border-radius:6px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* ---------- top bar ---------- */
+.topbar{
+  position:sticky; top:0; z-index:40;
+  display:flex; align-items:center; gap:10px;
+  padding:10px 14px; background:color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter:blur(12px); border-bottom:1px solid var(--line);
+}
+.brand{display:flex; align-items:center; gap:9px; min-width:0; text-decoration:none; color:inherit}
+.logo{
+  width:34px; height:34px; border-radius:11px; flex:none;
+  background:linear-gradient(160deg,var(--accent),var(--accent-strong));
+  color:var(--accent-ink); display:grid; place-items:center;
+  font-weight:800; font-size:15px; letter-spacing:.02em;
+}
+.brand-name{font-weight:700; font-size:15px; letter-spacing:-.01em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.brand-sub{display:block; font-weight:500; font-size:11px; color:var(--muted); letter-spacing:.02em}
+.topbar .spacer{flex:1}
+.pill{
+  display:inline-flex; align-items:center; gap:6px;
+  min-height:36px; padding:0 12px; border-radius:var(--r-pill);
+  background:var(--surface2); border:1px solid var(--line); color:var(--text);
+  font-size:13px; font-weight:600; cursor:pointer;
+}
+.pill:hover{border-color:var(--accent)}
+.icon-btn{
+  width:44px; height:44px; flex:none; display:grid; place-items:center;
+  border-radius:var(--r-pill); background:var(--surface2);
+  border:1px solid var(--line); cursor:pointer;
+}
+.icon-btn:hover{border-color:var(--accent)}
+.icon-btn svg{width:20px;height:20px}
+
+/* ---------- shell ---------- */
+.shell{max-width:1180px; margin:0 auto; padding:0 0 24px}
+main{display:block}
+.wrap{padding:0 14px}
+.note-line{
+  font-size:12.5px; color:var(--muted); padding:9px 14px 0;
+  display:flex; gap:7px; align-items:flex-start;
+}
+.note-line svg{width:15px;height:15px;flex:none;margin-top:2px}
+
+/* ---------- chips ---------- */
+.chips{
+  display:flex; gap:8px; overflow-x:auto; padding:12px 14px 4px;
+  scrollbar-width:none; -ms-overflow-style:none;
+}
+.chips::-webkit-scrollbar{display:none}
+.chip{
+  flex:none; min-height:36px; padding:0 14px; border-radius:var(--r-pill);
+  background:var(--surface); border:1px solid var(--line);
+  font-size:13.5px; font-weight:600; cursor:pointer; white-space:nowrap;
+}
+.chip[aria-pressed="true"]{background:var(--accent); border-color:var(--accent); color:var(--accent-ink)}
+
+/* ---------- promo ---------- */
+.promos{display:grid; gap:10px; padding:12px 14px 4px}
+.promo{
+  border-radius:var(--r-card); padding:15px 16px; background:var(--surface);
+  border:1px solid var(--line); display:flex; flex-direction:column; gap:6px;
+  text-align:left; cursor:pointer; width:100%;
+}
+.promo.green{border-color:var(--accent); box-shadow:inset 0 0 0 1px var(--accent)}
+.promo h3{margin:0; font-size:15px; font-weight:700}
+.promo p{margin:0; font-size:13px; color:var(--muted)}
+.promo .go{font-size:12.5px; font-weight:700; color:var(--accent-strong); margin-top:2px}
+
+/* ---------- section headings ---------- */
+.sec-head{
+  display:flex; align-items:baseline; justify-content:space-between; gap:12px;
+  padding:20px 14px 10px; grid-column:1/-1;
+}
+.sec-head h2{margin:0; font-size:16px; font-weight:700; letter-spacing:-.01em}
+.sec-head .count{font-size:12.5px; color:var(--muted); font-weight:600}
+.sec-head .link{background:none;border:0;padding:6px 0;font-size:13px;font-weight:700;color:var(--accent-strong);cursor:pointer}
+
+/* ---------- carousel ---------- */
+.carousel{
+  display:flex; gap:12px; overflow-x:auto; padding:0 14px 6px;
+  scroll-snap-type:x proximity; scrollbar-width:none;
+}
+.carousel::-webkit-scrollbar{display:none}
+.card{
+  flex:0 0 268px; scroll-snap-align:start;
+  background:var(--surface); border:1px solid var(--line);
+  border-radius:var(--r-card); padding:14px; display:flex; flex-direction:column; gap:9px;
+}
+.card-top{display:flex; gap:11px; align-items:flex-start}
+.thumb{
+  width:52px;height:52px;border-radius:var(--r-inner); flex:none;
+  display:grid; place-items:center; font-weight:800; font-size:20px;
+  color:#0B0B0B; letter-spacing:-.02em; overflow:hidden;
+}
+.card h3{margin:0; font-size:14.5px; font-weight:700; line-height:1.35}
+.card .meta{font-size:12.5px; color:var(--muted); margin:2px 0 0}
+.badge{
+  display:inline-flex; align-items:center; gap:4px; margin-top:5px;
+  font-size:11px; font-weight:700; letter-spacing:.02em;
+  padding:2px 8px; border-radius:var(--r-pill);
+  background:color-mix(in srgb, var(--accent) 22%, transparent);
+  color:var(--accent-strong); border:1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+}
+.card p{margin:0; font-size:13px; color:var(--muted)}
+.card .actions{display:flex; gap:6px; flex-wrap:wrap; margin-top:auto; padding-top:4px}
+.btn{
+  min-height:36px; padding:0 12px; border-radius:10px; cursor:pointer;
+  background:var(--surface2); border:1px solid var(--line); color:var(--text);
+  font-size:12.5px; font-weight:600;
+}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent); border-color:var(--accent); color:var(--accent-ink)}
+.btn.ghost{background:transparent}
+.btn.wide{width:100%; min-height:44px; font-size:14px}
+.star{
+  margin-left:auto; width:34px;height:34px; border-radius:50%; flex:none;
+  display:grid;place-items:center; cursor:pointer;
+  background:transparent; border:1px solid var(--line); color:var(--muted);
+}
+.star[aria-pressed="true"]{color:var(--accent-strong); border-color:var(--accent); background:color-mix(in srgb,var(--accent) 14%, transparent)}
+.star svg{width:17px;height:17px}
+
+/* ---------- rows ---------- */
+.rows{display:flex; flex-direction:column; gap:8px; padding:0 14px}
+.row{
+  display:flex; align-items:center; gap:12px; width:100%; text-align:left;
+  background:var(--surface); border:1px solid var(--line); border-radius:var(--r-inner);
+  padding:11px 12px; cursor:pointer; min-height:64px;
+}
+.row:hover{border-color:var(--accent)}
+.row .thumb{width:44px;height:44px;font-size:17px}
+.row .txt{min-width:0; flex:1}
+.row .name{font-size:14px; font-weight:650; line-height:1.35; display:block; overflow:hidden; text-overflow:ellipsis}
+.row .sub{font-size:12px; color:var(--muted); display:block; margin-top:2px}
+.row .chev{flex:none; color:var(--muted)}
+.row .chev svg{width:18px;height:18px}
+.row .price{font-size:13px; font-weight:700; color:var(--accent-strong); white-space:nowrap}
+.row .price small{display:block; font-weight:500; font-size:11px; color:var(--muted)}
+
+/* ---------- banner ---------- */
+.banner{
+  margin:10px 14px 0; padding:14px 16px; border-radius:var(--r-card);
+  background:color-mix(in srgb, var(--accent) 14%, var(--surface));
+  border:1px solid var(--accent); display:flex; flex-direction:column; gap:5px;
+}
+.banner .eyebrow{font-size:11px; font-weight:800; letter-spacing:.08em; color:var(--accent-strong)}
+.banner p{margin:0; font-size:13.5px}
+.banner .cat{font-size:12px; color:var(--muted)}
+.banner em{font-style:normal; font-weight:700}
+
+/* ---------- search ---------- */
+.searchbar{display:flex; gap:8px; padding:12px 14px 6px; align-items:center}
+.searchfield{
+  flex:1; display:flex; align-items:center; gap:8px;
+  background:var(--surface); border:1px solid var(--line); border-radius:var(--r-pill);
+  padding:0 14px; min-height:46px;
+}
+.searchfield:focus-within{border-color:var(--accent)}
+.searchfield svg{width:18px;height:18px;color:var(--muted);flex:none}
+.searchfield input{
+  flex:1; background:none; border:0; color:var(--text); font:inherit; outline:none; min-width:0;
+}
+.countline{padding:12px 14px 2px; font-size:13px; color:var(--muted); font-weight:600}
+.countline b{color:var(--text)}
+.empty{
+  margin:14px; padding:18px; border-radius:var(--r-card); background:var(--surface);
+  border:1px dashed var(--line); color:var(--muted); font-size:13.5px;
+}
+.hintlist{display:flex; flex-wrap:wrap; gap:8px; padding:6px 14px 0}
+
+/* ---------- detail sheet ---------- */
+.scrim{
+  position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:60;
+  opacity:0; pointer-events:none; transition:opacity .18s ease;
+}
+.scrim.open{opacity:1; pointer-events:auto}
+.sheet{
+  position:fixed; z-index:61; left:0; right:0; bottom:0;
+  background:var(--surface); border-top-left-radius:var(--r-card); border-top-right-radius:var(--r-card);
+  border:1px solid var(--line); max-height:90vh; overflow-y:auto;
+  transform:translateY(102%); transition:transform .22s ease;
+  padding:8px 0 18px;
+}
+.sheet.open{transform:translateY(0)}
+.sheet .grab{width:38px;height:4px;border-radius:99px;background:var(--line);margin:6px auto 10px}
+.sheet-inner{padding:0 16px}
+.sheet h2{margin:0 0 4px; font-size:18px; line-height:1.3}
+.sheet .close-row{display:flex; justify-content:flex-end}
+.kv{display:grid; grid-template-columns:auto 1fr; gap:6px 14px; font-size:13.5px; margin:14px 0}
+.kv dt{color:var(--muted)}
+.kv dd{margin:0}
+.ownbox{
+  border:1px solid var(--amber-line); background:color-mix(in srgb, var(--amber) 12%, var(--surface));
+  border-radius:var(--r-inner); padding:12px 14px; margin:14px 0;
+}
+.ownbox strong{display:block; font-size:13px; color:var(--amber); letter-spacing:.02em; margin-bottom:3px}
+.ownbox p{margin:0; font-size:13px}
+.sheet-actions{display:grid; gap:8px; margin-top:16px}
+.sheet-actions .btn{min-height:44px; font-size:14px}
+.field{display:block; margin:12px 0}
+.field span{display:block; font-size:12.5px; font-weight:600; color:var(--muted); margin-bottom:5px}
+.field input,.field textarea,.field select{
+  width:100%; padding:11px 12px; border-radius:12px; font:inherit;
+  background:var(--surface2); border:1px solid var(--line); color:var(--text);
+}
+.field textarea{min-height:84px; resize:vertical}
+.radio-row{display:flex; gap:10px; align-items:flex-start; padding:10px 12px; border:1px solid var(--line); border-radius:12px; margin-bottom:8px; cursor:pointer}
+.radio-row input{margin-top:3px; accent-color:var(--accent)}
+.radio-row span{font-size:13.5px}
+.tiny{font-size:12px; color:var(--muted)}
+.store-opt{
+  display:flex; width:100%; align-items:center; gap:10px; min-height:52px;
+  padding:0 14px; background:transparent; border:0; border-bottom:1px solid var(--line);
+  cursor:pointer; text-align:left;
+}
+.store-opt[aria-checked="true"]{background:var(--surface2)}
+.store-opt .dot{width:16px;height:16px;border-radius:50%;border:2px solid var(--muted);flex:none}
+.store-opt[aria-checked="true"] .dot{border-color:var(--accent); background:var(--accent); box-shadow:inset 0 0 0 3px var(--surface2)}
+
+/* ---------- categories ---------- */
+.catgrid{display:grid; grid-template-columns:1fr; gap:8px; padding:0 14px}
+.catgrid .row{padding:10px 12px}
+.avatar{
+  width:44px;height:44px;border-radius:12px;flex:none;display:grid;place-items:center;
+  font-weight:800; font-size:17px; color:#0B0B0B;
+}
+
+/* ---------- you ---------- */
+.block{background:var(--surface); border:1px solid var(--line); border-radius:var(--r-card); margin:12px 14px; padding:15px 16px}
+.block h2{margin:0 0 10px; font-size:15px; font-weight:700}
+.block p{margin:0 0 8px; font-size:13.5px; color:var(--muted)}
+.segmented{display:flex; gap:6px; flex-wrap:wrap}
+.segmented button{
+  min-height:40px; padding:0 14px; border-radius:10px; cursor:pointer;
+  background:var(--surface2); border:1px solid var(--line); font-size:13px; font-weight:600;
+}
+.segmented button[aria-pressed="true"]{background:var(--accent); border-color:var(--accent); color:var(--accent-ink)}
+.swatches{display:flex; gap:10px; margin-top:6px}
+.swatch{width:44px;height:44px;border-radius:12px;border:2px solid var(--line); cursor:pointer}
+.swatch[aria-pressed="true"]{border-color:var(--text); box-shadow:0 0 0 2px var(--surface)}
+.linkrow{display:flex; align-items:center; gap:10px; width:100%; min-height:46px; padding:0; background:none; border:0; border-bottom:1px solid var(--line); cursor:pointer; text-align:left; font-size:13.5px}
+.linkrow:last-child{border-bottom:0}
+.linkrow .chev{margin-left:auto; color:var(--muted)}
+.makeinindia{
+  margin:16px 14px 4px; padding:14px 16px; border-radius:var(--r-card);
+  border:1px solid var(--accent); background:linear-gradient(100deg, color-mix(in srgb,var(--accent) 20%, var(--surface)), var(--surface));
+  display:flex; gap:12px; align-items:center;
+}
+.makeinindia .flag{display:flex; flex-direction:column; width:8px; height:38px; border-radius:3px; overflow:hidden; flex:none}
+.makeinindia .flag i{flex:1}
+.makeinindia strong{display:block; font-size:13.5px}
+.makeinindia span{font-size:12px; color:var(--muted)}
+
+/* ---------- bottom bar / side nav ---------- */
+.tabbar{
+  position:fixed; left:0; right:0; bottom:0; z-index:45;
+  display:grid; grid-template-columns:repeat(5,1fr);
+  background:color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter:blur(12px); border-top:1px solid var(--line);
+  padding:6px 4px calc(6px + env(safe-area-inset-bottom));
+}
+.tab{
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;
+  min-height:52px; background:none; border:0; cursor:pointer; color:var(--muted);
+  font-size:10.5px; font-weight:650; letter-spacing:.01em; border-radius:12px;
+}
+.tab svg{width:21px;height:21px}
+.tab[aria-current="page"]{color:var(--accent-strong)}
+.sidenav{display:none}
+
+@media (min-width:900px){
+  body{padding-bottom:0}
+  .tabbar{display:none}
+  .shell{display:grid; grid-template-columns:var(--sidebar) minmax(0,1fr); gap:0; max-width:1404px; padding:0 16px 40px; align-items:start}
+  .sidenav{
+    display:flex; flex-direction:column; gap:4px; position:sticky; top:66px;
+    width:var(--sidebar); padding:14px 8px 0 0;
+  }
+  .sidenav .tab{flex-direction:row; justify-content:flex-start; gap:11px; font-size:13.5px; min-height:44px; padding:0 12px; font-weight:600}
+  .sidenav .tab svg{width:19px;height:19px}
+  .sidenav .side-label{font-size:11px; font-weight:700; letter-spacing:.08em; color:var(--muted); padding:14px 12px 6px}
+  main{max-width:1180px}
+  .promos{grid-template-columns:1fr 1fr; padding:14px 14px 4px}
+  .carousel{
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr));
+    overflow:visible; padding:0 14px;
+  }
+  .card{flex:none}
+  .catgrid{grid-template-columns:1fr 1fr}
+  .sheet{
+    left:50%; right:auto; bottom:auto; top:50%; transform:translate(-50%,-46%) scale(.98);
+    width:min(560px, calc(100% - 48px)); max-height:82vh;
+    border-radius:var(--r-card); opacity:0; pointer-events:none;
+    transition:opacity .16s ease, transform .16s ease;
+  }
+  .sheet.open{transform:translate(-50%,-50%) scale(1); opacity:1; pointer-events:auto}
+  .sheet .grab{display:none}
+  .rows{padding:0 14px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none !important; animation:none !important}
+}
+
+.legal{max-width:820px;margin:0 auto;padding:0 16px 60px}
+.legal h1{font-size:24px;letter-spacing:-.02em;margin:18px 0 6px}
+.legal h2{font-size:16.5px;margin:30px 0 8px;scroll-margin-top:80px}
+.legal p,.legal li{font-size:14px;color:var(--text)}
+.legal li{margin-bottom:7px}
+.legal .lead{color:var(--muted);font-size:14px}
+.legal .jump{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 8px}
+.legal .jump a{display:inline-flex;align-items:center;min-height:36px;padding:0 13px;border-radius:999px;background:var(--surface2);border:1px solid var(--line);color:var(--text);text-decoration:none;font-size:13px;font-weight:600}
+.legal .jump a:hover{border-color:var(--accent)}
+.legal .box{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:14px 16px;margin:14px 0}
+.legal .box p{margin:0}
+.legal .back{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-size:13.5px;font-weight:600;color:var(--accent-strong);text-decoration:none}
+.legal hr{border:0;border-top:1px solid var(--line);margin:26px 0}
+.legal code{font-size:12.5px;background:var(--surface2);padding:1px 5px;border-radius:6px}
+
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="index.html">
+    <span class="logo" aria-hidden="true">स</span>
+    <span><span class="brand-name">Swadeshi Medicine Store</span><span class="brand-sub">Legal and privacy</span></span>
+  </a>
+  <span class="spacer"></span>
+  <a class="pill" href="index.html">Back to store</a>
+</header>
+<p class="note-line"><span>Information only. Always follow your doctor's prescription.</span></p>
+
+<div class="legal">
+  <h1>Legal, privacy and terms</h1>
+  <p class="lead">Last updated 4 November 2026. This page describes exactly how this build behaves — not how a typical app behaves.</p>
+
+  <nav class="jump" aria-label="Jump to section">
+    <a href="#privacy">Privacy</a>
+    <a href="#terms">Terms</a>
+    <a href="#refund">Refunds</a>
+    <a href="#cookies">Cookies</a>
+    <a href="#accessibility">Accessibility</a>
+    <a href="#security">Security</a>
+    <a href="#disclosure">Responsible disclosure</a>
+  </nav>
+
+  <h2 id="privacy">Privacy policy</h2>
+  <p>This is a static web page. It has no backend, no database and no user accounts.</p>
+  <ul>
+    <li>There is no sign-up, no login and no profile.</li>
+    <li>There is no analytics, no tag manager, no pixel and no third-party script of any kind.</li>
+    <li>Nothing is loaded from a CDN — no web fonts, no icon packs, no trackers. Every asset is inside the page itself.</li>
+    <li>Your saved list, theme choice, accent colour and a random local id are stored in this browser's <code>localStorage</code> under the key <code>swadeshi.v1</code>. They stay on your device and are not transmitted anywhere.</li>
+    <li>Search runs on the device against a product list embedded in the page. Your search text is never sent to a server.</li>
+    <li>The only data that leaves your device is an email you compose and send yourself, through your own mail application, when you report a listing or submit a medicine. That email goes to the operator's address and contains what you typed.</li>
+    <li>Clearing your browser data deletes everything this page stored.</li>
+  </ul>
+  <div class="box"><p>Because there is no server, the operator cannot see your saved list, your searches or your theme — and cannot restore them if you clear your browser.</p></div>
+
+  <h2 id="terms">Terms of use</h2>
+  <ul>
+    <li>This page is an information and price-lookup tool built on the public Jan Aushadhi (PMBJP) product list dated 13 January 2023.</li>
+    <li>It is not a pharmacy, does not sell medicines, does not take orders and does not process payments.</li>
+    <li>It gives no medical advice. Doses, substitutions and suitability are decisions for a registered medical practitioner or pharmacist. Always follow your doctor's prescription.</li>
+    <li>Prices shown are the MRP printed in the source list. They can change, and availability differs by Jan Aushadhi Kendra.</li>
+    <li>Manufacturer names, batch numbers, stock and expiry are not part of the source list and are therefore not shown. They are never guessed.</li>
+    <li>Brand names mentioned on the page belong to their respective owners and are used only to point to the generic equivalent.</li>
+  </ul>
+
+  <h2 id="refund">Refunds and cancellations</h2>
+  <p>There is nothing to buy here, so there is nothing to refund and nothing to cancel. No payment is collected, no card details are requested, and no order is created. Any purchase happens at a physical Jan Aushadhi Kendra under that store's own terms.</p>
+
+  <h2 id="cookies">Cookies</h2>
+  <p>This page sets no cookies. It stores preferences in <code>localStorage</code>, which is not a cookie and is never sent with network requests. There are no advertising or analytics cookies because there are no advertisers or analytics.</p>
+
+  <h2 id="accessibility">Accessibility</h2>
+  <ul>
+    <li>Interactive controls are real <code>&lt;button&gt;</code> and <code>&lt;a&gt;</code> elements, reachable and operable by keyboard.</li>
+    <li>Focus is always visible, with a 2px focus ring on every control.</li>
+    <li>Tap targets are at least 44px tall on touch layouts.</li>
+    <li>Text contrast targets 4.5:1 or better in both the dark and light themes.</li>
+    <li>Sheets are dialogs with <code>aria-modal</code>, a labelled title, and Escape to close.</li>
+    <li>Motion respects <code>prefers-reduced-motion</code>.</li>
+    <li>Colour is never the only signal: saved state also changes the button's accessible name.</li>
+  </ul>
+  <p>If something is hard to use with a screen reader, keyboard or zoom, write to the operator and it gets fixed.</p>
+
+  <h2 id="security">Security</h2>
+  <ul>
+    <li>No server, no database and no credentials exist behind this page, so there is no data store to breach.</li>
+    <li>All product data is embedded at build time; nothing is fetched at runtime.</li>
+    <li>The page is served as static files. Serving it over HTTPS is recommended and is what GitHub Pages does by default.</li>
+    <li>Reports and submissions are ordinary emails, handled by your mail provider and the operator's mail provider.</li>
+  </ul>
+
+  <h2 id="disclosure">Responsible disclosure</h2>
+  <p>If you find a security or privacy problem, email the operator with the steps to reproduce it and what you expected instead. Please do not open a public issue with a working exploit, and do not test against data that is not yours. There is no bug bounty; there is a thank-you and a fix.</p>
+
+  <hr>
+  <p class="lead">Operator: Vasudev Work · <a href="mailto:vasudev.work@rediffmail.com">vasudev.work@rediffmail.com</a></p>
+  <a class="back" href="index.html">&larr; Back to the store</a>
+</div>
+
+</body>
+</html>
