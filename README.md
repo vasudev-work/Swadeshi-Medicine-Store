@@ -81,6 +81,18 @@ The search is the point of the page, so it never answers a foreign brand with "n
 
 6. All of it runs on the device against the embedded JSON. No query is sent anywhere.
 
+## Data shape
+
+Each product is embedded as:
+
+```js
+{ n: name, m: manufacturer, c: category, s: pack size, d: one-line description,
+  u: link, i: image id, p: product code, pr: MRP, pg: source page,
+  fo: foreign owner, sr: serial number }
+```
+
+`m`, `u`, `i` and `fo` are empty strings for every product, because the Jan Aushadhi list carries none of them. `pr` is empty where the source says "Under Process". `pg` is the page of the source PDF the row came from, so any price can be checked by hand.
+
 ## Detail sheet
 
 Any card or row opens a sheet with the name, a **Made in India** badge, manufacturer (or "not listed in the source list"), pack size, category, dosage form, MRP, product code, a one-line description and the source page of the PDF.
