@@ -4,7 +4,8 @@ One static web page that lists Indian generic medicines with the **Jan Aushadhi 
 
 - Live page: `index.html` (self-contained — HTML, CSS and JS in one file)
 - Legal page: `legal.html`
-- 2,026 products, 59 therapeutic groups, 25 brand mappings
+- 2,026 medicines in 59 therapeutic groups, plus 90 skin, hair and oral care products in 15 groups
+- 25 brand mappings for the search
 
 No build step, no framework, no CDN, no backend, no analytics, no cookies.
 
@@ -13,6 +14,15 @@ No build step, no framework, no CDN, no backend, no analytics, no cookies.
 ## Where the data comes from
 
 Every product on the page comes from the **Jan Aushadhi medicine list (generic name wise), product list updated 13.01.2023** — the official PMBJP price list. Each row in that PDF gives a serial number, a drug code, the generic name, the unit size, the MRP and the therapeutic group.
+
+A second, smaller set comes from **Jan Aushadhi skin care product sheets** supplied as spreadsheets (`Jan_Aushadhi_Skin_Care_Products.xlsx`, 78 rows, and `_1.xlsx`, 91 rows). The 78-row file is a strict subset of the 91-row one — every one of its drug codes appears in the 91-row file — so the page is built from the 91-row file alone and nothing is double counted.
+
+The skin care sheet adds face wash, medicated soap, toothpaste and mouthwash categories that the medicine list does not cover, and it carries its own MRP column. Where a skin care drug code also appears in the 2023 medicine list and the two prices differ, the detail sheet shows both figures and says which source each came from, instead of picking one silently.
+
+Two data notes on that sheet, both visible in the page rather than smoothed over:
+
+- One row, **Nitroglycerin Controlled Release Tablets 6.4 mg**, is filed under *Moisturiser / dryness*. It is a cardiac tablet, so it is excluded from the skin care set rather than published under a skin category.
+- Several unit-size strings arrive truncated in the source (`20gm Tube`, `2.5ml with`, `10ml in`). They are reproduced as supplied; nothing is completed by guesswork.
 
 Those six columns are what the page shows. The source list does **not** contain manufacturer names, stock, expiry, batch numbers or product photographs, so the page leaves them blank or says "not listed". Nothing is filled in by guesswork.
 
@@ -43,10 +53,11 @@ Five destinations, in the bottom bar on a phone and the left sidebar at 900px an
 
 | View | What it does |
 |---|---|
-| Jan Aushadhi | Category chips, two promo cards, the "Indian generics for common brands" carousel, and a suggested list |
+| Jan Aushadhi | Category chips, two promo cards, the "Indian generics for common brands" carousel, a suggested list, and a **Skin, hair and oral care** section |
 | Medicines | The full list, 60 rows at a time with a **Show more** button, filtered by chip, therapeutic group or dosage form |
 | Search | Brand-to-generic search with alternatives (below) |
 | Prescriptions | Type the names a doctor wrote, one per line, and get the generic and its listed price for each |
+| Categories | Therapeutic groups, skin care groups and dosage forms, each with a count; tapping one filters the list |
 | You | Saved list, theme and accent, store state, operator card, contribute links, about, Make in India bar |
 
 ## How the search works
@@ -91,7 +102,9 @@ Each product is embedded as:
   fo: foreign owner, sr: serial number }
 ```
 
-`m`, `u`, `i` and `fo` are empty strings for every product, because the Jan Aushadhi list carries none of them. `pr` is empty where the source says "Under Process". `pg` is the page of the source PDF the row came from, so any price can be checked by hand.
+`m`, `u`, `i` and `fo` are empty strings for every product, because the Jan Aushadhi lists carry none of them. `pr` is empty where the source says "Under Process" or prints a dash. `pg` is the page of the source PDF the row came from, so any price can be checked by hand.
+
+Skin care products live in a second array, `SKIN`, with the same shape plus two extra keys: `src: "skin"` and, where the drug code also exists in the 2023 list, `off: { pr, pg, n }` holding the official price and page for the dual-source note. Their serial numbers start at 10001 so saved items from the two sets never collide.
 
 ## Detail sheet
 
