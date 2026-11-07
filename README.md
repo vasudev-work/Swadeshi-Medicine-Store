@@ -143,6 +143,29 @@ A product search matches on name, pack size and therapeutic group, so `sanitary 
 
 The lay-term result carries the line "This is not medical advice. Follow your doctor's prescription." A symptom is not a diagnosis, and this page only prices what is listed.
 
+## Optional AI assistant (bring your own key)
+
+The page can answer questions about its own listings, but only if **you** supply an API key. No key ships with this repository — search the file for `sk-` and you will find none — and nothing in the assistant runs until a key is added.
+
+**How it is wired**
+
+- Settings live in **You → AI assistant** or the assistant sheet itself: API key, endpoint, model. Defaults are an OpenAI-compatible endpoint and `gpt-4o-mini`; any OpenAI-compatible chat endpoint works.
+- The key, endpoint and model are stored in `localStorage` under `swadeshi.ai`, on that device only.
+- Only `https://` endpoints are accepted, because a key must never travel over plain HTTP.
+- Pressing **Ask** sends one request from the browser straight to the endpoint you named, with your key in the `Authorization` header. The operator of the page is not in that path and cannot see the request or the reply.
+
+**What the request contains**
+
+The question, plus at most fifteen matching rows from this page's own arrays — medicine name, pack size, Jan Aushadhi MRP, branded price and therapeutic group. The rows are picked by the same search functions the page uses: a brand match, a lay-term match, then plain product search. Your saved list, your searches, your theme and any identifier are never included.
+
+**What the model is told**
+
+A fixed system prompt: answer only from the rows supplied, never invent a price, pack, stock level or expiry, never give dosages, diagnoses or substitution instructions, and say plainly when the rows do not contain the answer. Replies are capped at about 350 tokens and 100 words.
+
+**Failure modes are shown, not hidden.** A 401 shows the provider's own message ("The provider answered 401. Incorrect API key provided."), a CORS block shows as a network error, and an empty reply says so. Removing the key wipes it from the browser and turns the feature off; the rest of the page never depended on it.
+
+**Caveats worth stating.** A model answer can still be wrong even when it is grounded, so the printed MRP on the page always wins. Provider terms and privacy policies apply to whatever you send them. And because the browser calls the provider directly, the provider must allow cross-origin requests — many do, some do not, and the error is shown as-is rather than retried somewhere else.
+
 ## Pictures
 
 Every listing carries a drawing, generated in the page from the listing itself — never a photograph, never a downloaded image.

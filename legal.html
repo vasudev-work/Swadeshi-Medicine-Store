@@ -303,6 +303,25 @@ body.lang-hi .row .name,body.lang-hi .card h3{line-height:1.45}
 .store-opt .dot{width:16px;height:16px;border-radius:50%;border:2px solid var(--muted);flex:none}
 .store-opt[aria-checked="true"] .dot{border-color:var(--accent); background:var(--accent); box-shadow:inset 0 0 0 3px var(--surface2)}
 
+/* ---------- AI assistant ---------- */
+.chat{display:flex; flex-direction:column; gap:10px; max-height:46vh; overflow-y:auto; padding:4px 2px 10px}
+.msg{border-radius:14px; padding:10px 13px; font-size:13.5px; line-height:1.5; max-width:92%}
+.msg.user{align-self:flex-end; background:var(--accent); color:var(--accent-ink)}
+.msg.bot{align-self:flex-start; background:var(--surface2); border:1px solid var(--line)}
+.msg.err{align-self:stretch; background:color-mix(in srgb, #D93025 14%, var(--surface)); border:1px solid #D93025; color:var(--text)}
+.msg.bot p{margin:0 0 6px}
+.msg.bot p:last-child{margin:0}
+.airow{display:flex; gap:8px; align-items:center}
+.airow input{
+  flex:1; min-height:44px; padding:0 12px; border-radius:12px; font:inherit;
+  background:var(--surface2); border:1px solid var(--line); color:var(--text);
+}
+.ai-foot{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:8px; font-size:11.5px; color:var(--muted)}
+.linkbtn{background:none; border:0; color:var(--accent-strong); font-weight:700; font-size:12px; cursor:pointer; padding:6px 0}
+.keyrow{display:flex; gap:8px; align-items:center}
+.keyrow input{flex:1}
+.masked{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12.5px}
+
 /* ---------- categories ---------- */
 .catgrid{display:grid; grid-template-columns:1fr; gap:8px; padding:0 14px}
 .catgrid .row{padding:10px 12px}
@@ -443,6 +462,7 @@ body.lang-hi .row .name,body.lang-hi .card h3{line-height:1.45}
     <a href="#cookies">Cookies</a>
     <a href="#accessibility">Accessibility</a>
     <a href="#security">Security</a>
+    <a href="#ai">AI assistant</a>
     <a href="#disclosure">Responsible disclosure</a>
   </nav>
 
@@ -454,7 +474,8 @@ body.lang-hi .row .name,body.lang-hi .card h3{line-height:1.45}
     <li>Nothing is loaded from a CDN — no web fonts, no icon packs, no trackers. Every asset is inside the page itself.</li>
     <li>Your saved list, theme choice, accent colour and a random local id are stored in this browser's <code>localStorage</code> under the key <code>swadeshi.v1</code>. They stay on your device and are not transmitted anywhere.</li>
     <li>Search runs on the device against a product list embedded in the page. Your search text is never sent to a server.</li>
-    <li>The only data that leaves your device is an email you compose and send yourself, through your own mail application, when you report a listing or submit a medicine. That email goes to the operator's address and contains what you typed.</li>
+    <li>By default, the only data that leaves your device is an email you compose and send yourself, through your own mail application, when you report a listing or submit a medicine. That email goes to the operator's address and contains what you typed.</li>
+    <li>If you switch on the optional AI assistant and add your own API key, then your question and a short list of matching medicine rows (name, pack size, prices, group — no personal data) are sent to the API provider <em>you</em> configure. That is the only other outbound request this page can make, it happens only when you press Ask, and it can be turned off by removing the key.</li>
     <li>Clearing your browser data deletes everything this page stored.</li>
   </ul>
   <div class="box"><p>Because there is no server, the operator cannot see your saved list, your searches or your theme — and cannot restore them if you clear your browser.</p></div>
@@ -471,6 +492,18 @@ body.lang-hi .row .name,body.lang-hi .card h3{line-height:1.45}
 
   <h2 id="refund">Refunds and cancellations</h2>
   <p>There is nothing to buy here, so there is nothing to refund and nothing to cancel. No payment is collected, no card details are requested, and no order is created. Any purchase happens at a physical Jan Aushadhi Kendra under that store's own terms.</p>
+
+  <h2 id="ai">AI assistant (optional)</h2>
+  <p>The assistant is off by default. It needs an API key that <strong>you</strong> supply, and there is no key of the operator's in this page or in the repository.</p>
+  <ul>
+    <li>Your key is stored in this browser's <code>localStorage</code> under <code>swadeshi.ai</code>, alongside the endpoint and model you choose. It is never sent to the operator and never written into the page's code.</li>
+    <li>When you press <strong>Ask</strong>, the browser calls the endpoint you configured directly, with your key in the request header. The operator cannot see the request or the reply.</li>
+    <li>The request contains your question and up to fifteen matching rows from this page's own list — medicine name, pack size, Jan Aushadhi MRP, branded price and therapeutic group. It does not contain your saved list, your searches, your theme or any identifier.</li>
+    <li>Answers are generated by a third-party model from those rows. They can still be wrong. Nothing in an answer overrides the printed price on this page, and nothing in it is medical advice.</li>
+    <li>Only an <code>https://</code> endpoint is accepted, because a key must never travel over plain HTTP.</li>
+    <li>Removing the key deletes it from this browser and turns the assistant off again. The rest of the page never depended on it.</li>
+    <li>The provider you choose sees your request under its own terms and privacy policy. Choose a provider you are willing to send that text to.</li>
+  </ul>
 
   <h2 id="cookies">Cookies</h2>
   <p>This page sets no cookies. It stores preferences in <code>localStorage</code>, which is not a cookie and is never sent with network requests. There are no advertising or analytics cookies because there are no advertisers or analytics.</p>

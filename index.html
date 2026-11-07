@@ -303,6 +303,25 @@ body.lang-hi .row .name,body.lang-hi .card h3{line-height:1.45}
 .store-opt .dot{width:16px;height:16px;border-radius:50%;border:2px solid var(--muted);flex:none}
 .store-opt[aria-checked="true"] .dot{border-color:var(--accent); background:var(--accent); box-shadow:inset 0 0 0 3px var(--surface2)}
 
+/* ---------- AI assistant ---------- */
+.chat{display:flex; flex-direction:column; gap:10px; max-height:46vh; overflow-y:auto; padding:4px 2px 10px}
+.msg{border-radius:14px; padding:10px 13px; font-size:13.5px; line-height:1.5; max-width:92%}
+.msg.user{align-self:flex-end; background:var(--accent); color:var(--accent-ink)}
+.msg.bot{align-self:flex-start; background:var(--surface2); border:1px solid var(--line)}
+.msg.err{align-self:stretch; background:color-mix(in srgb, #D93025 14%, var(--surface)); border:1px solid #D93025; color:var(--text)}
+.msg.bot p{margin:0 0 6px}
+.msg.bot p:last-child{margin:0}
+.airow{display:flex; gap:8px; align-items:center}
+.airow input{
+  flex:1; min-height:44px; padding:0 12px; border-radius:12px; font:inherit;
+  background:var(--surface2); border:1px solid var(--line); color:var(--text);
+}
+.ai-foot{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:8px; font-size:11.5px; color:var(--muted)}
+.linkbtn{background:none; border:0; color:var(--accent-strong); font-weight:700; font-size:12px; cursor:pointer; padding:6px 0}
+.keyrow{display:flex; gap:8px; align-items:center}
+.keyrow input{flex:1}
+.masked{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12.5px}
+
 /* ---------- categories ---------- */
 .catgrid{display:grid; grid-template-columns:1fr; gap:8px; padding:0 14px}
 .catgrid .row{padding:10px 12px}
@@ -471,6 +490,11 @@ The product list is rendered in the browser and nothing is sent to a server. Wit
           <p>Send it to the operator by email. No account, no server.</p>
           <span class="go">Add a medicine &rarr;</span>
         </button>
+        <button class="promo" id="promoAi">
+          <h3>Ask about a medicine</h3>
+          <p>Optional AI helper that answers only from this list. Bring your own API key.</p>
+          <span class="go">Open the assistant &rarr;</span>
+        </button>
       </div>
       <div id="homeBody"></div>
     </section>
@@ -608,6 +632,30 @@ The product list is rendered in the browser and nothing is sent to a server. Wit
   <div class="sheet-inner" id="compareBody"></div>
 </div>
 
+<!-- AI assistant -->
+<div class="sheet" id="sheetAI" role="dialog" aria-modal="true" aria-labelledby="aiTitle" aria-hidden="true">
+  <div class="grab"></div>
+  <div class="sheet-inner">
+    <div class="close-row"><button class="icon-btn" data-close aria-label="Close assistant">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <h2 id="aiTitle">Ask about a medicine</h2>
+    <p class="tiny" style="margin:4px 0 12px">Answers come from this page's own list, not from the open web. Optional, off until you add a key.</p>
+    <div id="aiSetup"></div>
+    <div id="aiChat" hidden>
+      <div class="chat" id="aiMessages" aria-live="polite"></div>
+      <form class="airow" id="aiForm">
+        <label class="sr-only" for="aiInput">Your question</label>
+        <input id="aiInput" type="text" placeholder="Which paracetamol pack is cheapest?" autocomplete="off">
+        <button class="btn primary" id="aiSend" type="submit">Ask</button>
+      </form>
+      <div class="ai-foot">
+        <span id="aiModel"></span>
+        <button class="linkbtn" id="aiSettings">Change key</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- prescription explainer -->
 <div class="sheet" id="sheetRx" role="dialog" aria-modal="true" aria-labelledby="rxTitle" aria-hidden="true">
   <div class="grab"></div>
@@ -669,6 +717,17 @@ const META = {"githubUser": "vasudev-work"};
     'Save': 'सहेजें', 'Remove from saved': 'सहेजे गए से हटाएँ', 'Close': 'बंद करें',
     'Report this listing': 'इस लिस्टिंग की शिकायत करें', 'Open details': 'विवरण खोलें',
     'Price details': 'कीमत का विवरण',
+    'Ask about a medicine': 'दवा के बारे में पूछें',
+    'Ask AI about this': 'इसके बारे में AI से पूछें',
+    'AI assistant': 'AI सहायक', 'Ask': 'पूछें', 'Thinking…': 'सोच रहा है…',
+    'API key': 'API कुंजी', 'Model': 'मॉडल', 'Endpoint (OpenAI-compatible)': 'एंडपॉइंट (OpenAI-संगत)',
+    'Save key on this device': 'इस डिवाइस पर कुंजी सहेजें', 'Change key': 'कुंजी बदलें',
+    'Open the assistant': 'सहायक खोलें', 'Add a key or open the assistant': 'कुंजी जोड़ें या सहायक खोलें',
+    'Your question': 'आपका सवाल',
+    'Optional AI helper that answers only from this list. Bring your own API key.': 'वैकल्पिक AI सहायक जो केवल इसी सूची से जवाब देता है। अपनी API कुंजी लाएँ।',
+    'Open the assistant →': 'सहायक खोलें →',
+    'Answers come from this page\'s own list, not from the open web. Optional, off until you add a key.': 'जवाब इसी पेज की सूची से आते हैं, खुले इंटरनेट से नहीं। वैकल्पिक, कुंजी जोड़ने तक बंद।',
+    'The request failed.': 'अनुरोध विफल रहा।',
     'The picture is a drawing built from this listing — form, strength and category. The Jan Aushadhi lists carry no product photographs, so none are shown.': 'यह चित्र इसी लिस्टिंग से बनाया गया है — रूप, शक्ति और श्रेणी। जन औषधि सूचियों में उत्पाद की कोई तस्वीर नहीं होती, इसलिए कोई नहीं दिखाई गई है।',
     'Type a brand or a generic name. Try one of these:': 'ब्रांड या जेनेरिक नाम टाइप करें। इनमें से आज़माएँ:',
     'Searches run on this device against the embedded Jan Aushadhi list. Nothing is sent anywhere.': 'खोज इसी डिवाइस पर भीतर दी गई जन औषधि सूची में होती है। कहीं कुछ नहीं भेजा जाता।',
@@ -731,6 +790,17 @@ const META = {"githubUser": "vasudev-work"};
     'Two prices for the same pack': 'एक ही पैक की दो कीमतें',
     'No branded price is printed for this pack, so no comparison figure is invented.': 'इस पैक के लिए कोई ब्रांडेड कीमत नहीं छपी है, इसलिए कोई तुलना आँकड़ा गढ़ा नहीं गया।',
     'Price details': 'कीमत का विवरण',
+    'Ask about a medicine': 'दवा के बारे में पूछें',
+    'Ask AI about this': 'इसके बारे में AI से पूछें',
+    'AI assistant': 'AI सहायक', 'Ask': 'पूछें', 'Thinking…': 'सोच रहा है…',
+    'API key': 'API कुंजी', 'Model': 'मॉडल', 'Endpoint (OpenAI-compatible)': 'एंडपॉइंट (OpenAI-संगत)',
+    'Save key on this device': 'इस डिवाइस पर कुंजी सहेजें', 'Change key': 'कुंजी बदलें',
+    'Open the assistant': 'सहायक खोलें', 'Add a key or open the assistant': 'कुंजी जोड़ें या सहायक खोलें',
+    'Your question': 'आपका सवाल',
+    'Optional AI helper that answers only from this list. Bring your own API key.': 'वैकल्पिक AI सहायक जो केवल इसी सूची से जवाब देता है। अपनी API कुंजी लाएँ।',
+    'Open the assistant →': 'सहायक खोलें →',
+    'Answers come from this page\'s own list, not from the open web. Optional, off until you add a key.': 'जवाब इसी पेज की सूची से आते हैं, खुले इंटरनेट से नहीं। वैकल्पिक, कुंजी जोड़ने तक बंद।',
+    'The request failed.': 'अनुरोध विफल रहा।',
     'The picture is a drawing built from this listing — form, strength and category. The Jan Aushadhi lists carry no product photographs, so none are shown.': 'यह चित्र इसी लिस्टिंग से बनाया गया है — रूप, शक्ति और श्रेणी। जन औषधि सूचियों में उत्पाद की कोई तस्वीर नहीं होती, इसलिए कोई नहीं दिखाई गई है।',
     'Type a brand or a generic name. Try one of these:': 'ब्रांड या जेनेरिक नाम टाइप करें। इनमें से आज़माएँ:',
     'Searches run on this device against the embedded Jan Aushadhi list. Nothing is sent anywhere.': 'खोज इसी डिवाइस पर भीतर दी गई जन औषधि सूची में होती है। कहीं कुछ नहीं भेजा जाता।',
@@ -1431,6 +1501,13 @@ const META = {"githubUser": "vasudev-work"};
       '<button class="linkrow" id="youReport">Report a listing' + chev() + '</button>' +
       '<a class="linkrow" href="legal.html">Legal, privacy and terms' + chev() + '</a></div>';
 
+    html += '<div class="block"><h2>AI assistant</h2>' +
+      (aiReady()
+        ? '<p>Connected to <strong style="color:var(--text)">' + esc(ai.model) + '</strong>. Your key is stored in this browser only.</p>'
+        : '<p>Off. The optional assistant needs your own API key — nothing is sent anywhere until you add one.</p>') +
+      '<button class="btn" data-aiopen="1">' + (aiReady() ? 'Open the assistant' : 'Add a key or open the assistant') + '</button>' +
+      '<p class="tiny" style="margin-top:10px">When you use it, your question and up to 15 matching rows (name, pack, prices, group) go to the provider you chose. Nothing else leaves the page.</p></div>';
+
     html += '<div class="block"><h2>Sources</h2>' +
       '<a class="linkrow" href="sources/Jan-Aushadhi-Medicine-list-2023.pdf" download>Download the product list (PDF, 13.01.2023)' + chev() + '</a>' +
       '<p class="tiny" style="margin-top:10px">Every medicine, price and therapeutic group on this page comes from that file. The skin care, protein and branded-price rows come from the sheets supplied for this build. A newer list may exist on janaushadhi.gov.in; when it is added here, the prices on this page change with it.</p></div>';
@@ -1541,6 +1618,7 @@ const META = {"githubUser": "vasudev-work"};
         '<button class="btn primary" data-price="' + p.sr + '">Jan Aushadhi price</button>' +
         '<button class="btn" data-compare="' + p.sr + '"' + (b ? ' data-brand="' + esc(b.brand) + '"' : '') + '>Compare prices</button>' +
         '<button class="btn" data-star="' + p.sr + '" aria-pressed="' + isSaved(p.sr) + '">' + (isSaved(p.sr) ? 'Remove from saved' : 'Save') + '</button>' +
+        '<button class="btn" data-aiask="' + p.sr + '">Ask AI about this</button>' +
         '<button class="btn ghost" data-report="' + p.sr + '">Report this listing</button>' +
         '<button class="btn ghost" data-close>Close</button>' +
       '</div>' +
@@ -1601,6 +1679,150 @@ const META = {"githubUser": "vasudev-work"};
       block +
       '<div class="sheet-actions"><button class="btn primary" data-price="' + p.sr + '">Price details</button><button class="btn ghost" data-close>Close</button></div>';
     openSheet('sheetCompare');
+  }
+
+
+  /* ---------------- optional AI assistant ----------------
+     Bring your own key: the key is typed by the user, kept in this browser's
+     localStorage, and sent only to the endpoint the user configures. No key
+     ships with the page and nothing here runs until a key is added. */
+  var AI_KEY = 'swadeshi.ai';
+  var ai = { endpoint: 'https://api.openai.com/v1/chat/completions', model: 'gpt-4o-mini', key: '', history: [] };
+  try {
+    var savedAi = JSON.parse(localStorage.getItem(AI_KEY) || '{}');
+    if (savedAi.endpoint) ai.endpoint = savedAi.endpoint;
+    if (savedAi.model) ai.model = savedAi.model;
+    if (savedAi.key) ai.key = savedAi.key;
+  } catch (e) {}
+  function saveAi() {
+    try {
+      localStorage.setItem(AI_KEY, JSON.stringify({ endpoint: ai.endpoint, model: ai.model, key: ai.key }));
+    } catch (e) {}
+  }
+  function aiReady() { return !!(ai.key && ai.endpoint && ai.model); }
+
+  function aiContext(q) {
+    var rows = [], seen = {};
+    function add(list) {
+      (list || []).forEach(function (p) {
+        if (p && !seen[p.sr] && rows.length < 15) { seen[p.sr] = 1; rows.push(p); }
+      });
+    }
+    var b = brandMatch(q);
+    if (b) add([BY_SR[b.primary]].concat((b.others || []).map(function (sr) { return BY_SR[sr]; })));
+    var lay = layMatch(q);
+    if (lay) add(ALL.filter(lay.test).slice(0, 10));
+    add(productSearch(q, 10));
+    if (!rows.length) add(ALL.filter(function (p) { return p.bp; }).slice(0, 10));
+    return rows.map(function (p) {
+      return '- ' + p.n + ' | pack ' + p.s + ' | Jan Aushadhi MRP ₹' + (p.pr || 'not listed') +
+        (p.bp ? ' | branded ₹' + p.bp : '') + ' | group ' + p.c;
+    }).join('\n');
+  }
+
+  function aiSetupHTML() {
+    if (aiReady()) {
+      return '<div class="block" style="margin:0 0 12px"><p style="margin:0 0 6px">Connected to <strong style="color:var(--text)">' + esc(ai.model) + '</strong></p>' +
+        '<p class="tiny masked" style="margin:0">' + esc(ai.endpoint.replace(/^https?:\/\//, '')) + ' · key ' + esc(ai.key.slice(0, 3)) + '…' + esc(ai.key.slice(-4)) + '</p></div>';
+    }
+    return '<div class="block" style="margin:0 0 12px">' +
+      '<p style="margin:0 0 10px">This helper needs an API key of your own. It is stored in this browser only, sent straight to the provider you name, and never to the operator of this page.</p>' +
+      '<label class="field"><span>API key</span><input id="aiKey" type="password" autocomplete="off" placeholder="sk-…"></label>' +
+      '<label class="field"><span>Endpoint (OpenAI-compatible)</span><input id="aiEndpoint" type="url" autocomplete="off" value="' + esc(ai.endpoint) + '"></label>' +
+      '<label class="field"><span>Model</span><input id="aiModel" type="text" autocomplete="off" value="' + esc(ai.model) + '"></label>' +
+      '<button class="btn primary wide" id="aiSave">Save key on this device</button>' +
+      '<p class="tiny" style="margin-top:10px">Works with any OpenAI-compatible chat endpoint that allows browser requests. If the provider blocks CORS, the request fails here and the error is shown as-is. Without a key, the assistant stays off and the rest of the page works exactly as before.</p>' +
+      '</div>';
+  }
+
+  function renderAi() {
+    $('#aiSetup').innerHTML = aiSetupHTML();
+    var chat = $('#aiChat');
+    chat.hidden = !aiReady();
+    $('#aiModel').textContent = aiReady() ? ai.model : '';
+    var saveBtn = $('#aiSave');
+    if (saveBtn) saveBtn.addEventListener('click', function () {
+      var k = $('#aiKey').value.trim();
+      var ep = $('#aiEndpoint').value.trim() || ai.endpoint;
+      var md = $('#aiModel').value.trim() || ai.model;
+      if (!k) { $('#aiKey').focus(); return; }
+      if (!/^https:\/\//i.test(ep)) { alert('Use an https:// endpoint — a key must never travel over plain http.'); return; }
+      ai.key = k; ai.endpoint = ep; ai.model = md; saveAi();
+      renderAi();
+    });
+    var setBtn = $('#aiSettings');
+    if (setBtn) setBtn.addEventListener('click', function () {
+      ai.key = ''; ai.history = []; saveAi();
+      $('#aiMessages').innerHTML = '';
+      renderAi();
+    });
+  }
+
+  function aiBubble(kind, text) {
+    var wrap = $('#aiMessages');
+    var el = document.createElement('div');
+    el.className = 'msg ' + kind;
+    if (kind === 'bot') {
+      el.innerHTML = esc(text).replace(/\n{2,}/g, '</p><p>').replace(/\n/g, '<br>').replace(/^/, '<p>') + '</p>';
+    } else {
+      el.textContent = text;
+    }
+    wrap.appendChild(el);
+    wrap.scrollTop = wrap.scrollHeight;
+  }
+
+  var AI_SYSTEM = 'You are a helper inside a static page that lists Jan Aushadhi (PMBJP) medicines with their printed MRP. ' +
+    'Answer only from the medicine rows supplied with each question. Never invent a price, pack size, stock level, expiry or certification. ' +
+    'Never give medical advice, dosages, diagnoses or substitution instructions beyond what the rows state. ' +
+    'If the rows do not contain the answer, say so plainly and suggest searching the brand or generic name on the page. ' +
+    'Keep replies under 100 words, plain sentences, no markdown headings.';
+
+  function aiAsk(question) {
+    if (!aiReady()) return;
+    aiBubble('user', question);
+    var thinking = document.createElement('div');
+    thinking.className = 'msg bot';
+    thinking.textContent = 'Thinking…';
+    $('#aiMessages').appendChild(thinking);
+    $('#aiSend').disabled = true;
+
+    var ctx = aiContext(question);
+    var messages = [{ role: 'system', content: AI_SYSTEM }];
+    ai.history.slice(-4).forEach(function (m) { messages.push(m); });
+    messages.push({
+      role: 'user',
+      content: 'Medicine rows from the page:\n' + (ctx || '(no rows matched)') + '\n\nQuestion: ' + question
+    });
+
+    fetch(ai.endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + ai.key },
+      body: JSON.stringify({ model: ai.model, messages: messages, temperature: 0.2, max_tokens: 350 })
+    }).then(function (r) {
+      if (!r.ok) {
+        return r.text().then(function (t) {
+          var msg = 'The provider answered ' + r.status + '. ';
+          try { var j = JSON.parse(t); msg += (j.error && j.error.message) || ''; } catch (e) { msg += (t || '').slice(0, 160); }
+          throw new Error(msg);
+        });
+      }
+      return r.json();
+    }).then(function (data) {
+      var text = data && data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
+      thinking.remove();
+      if (!text) throw new Error('The provider returned no text.');
+      aiBubble('bot', text.trim());
+      ai.history.push({ role: 'user', content: question }, { role: 'assistant', content: text.trim() });
+    }).catch(function (err) {
+      thinking.remove();
+      var el = document.createElement('div');
+      el.className = 'msg err';
+      el.textContent = err && err.message ? err.message : 'The request failed.';
+      $('#aiMessages').appendChild(el);
+      $('#aiMessages').scrollTop = $('#aiMessages').scrollHeight;
+    }).then(function () {
+      $('#aiSend').disabled = false;
+    });
   }
 
   /* ---------------- mail ---------------- */
@@ -1718,7 +1940,7 @@ const META = {"githubUser": "vasudev-work"};
 
   /* ---------------- events ---------------- */
   document.addEventListener('click', function (e) {
-    var t = e.target.closest('[data-nav],[data-chip],[data-detail],[data-star],[data-price],[data-compare],[data-report],[data-group],[data-form],[data-skin-group],[data-skin-all],[data-nutrition-all],[data-lay],[data-store],[data-suggest],[data-close],[data-theme-opt],[data-accent-opt],[data-lang-opt],[data-store-sheet]');
+    var t = e.target.closest('[data-nav],[data-chip],[data-detail],[data-star],[data-price],[data-compare],[data-report],[data-group],[data-form],[data-skin-group],[data-skin-all],[data-nutrition-all],[data-lay],[data-aiask],[data-aiopen],[data-store],[data-suggest],[data-close],[data-theme-opt],[data-accent-opt],[data-lang-opt],[data-store-sheet]');
     if (!t) return;
 
     if (t.hasAttribute('data-close')) { closeSheets(); return; }
@@ -1751,6 +1973,14 @@ const META = {"githubUser": "vasudev-work"};
     if (t.hasAttribute('data-price')) { e.preventDefault(); openPrice(parseInt(t.getAttribute('data-price'), 10)); return; }
     if (t.hasAttribute('data-compare')) { e.preventDefault(); openCompare(parseInt(t.getAttribute('data-compare'), 10), t.getAttribute('data-brand')); return; }
     if (t.hasAttribute('data-report')) { e.preventDefault(); openReport(parseInt(t.getAttribute('data-report'), 10)); return; }
+    if (t.hasAttribute('data-aiopen')) { e.preventDefault(); renderAi(); openSheet('sheetAI'); return; }
+    if (t.hasAttribute('data-aiask')) {
+      e.preventDefault();
+      var ap = BY_SR[parseInt(t.getAttribute('data-aiask'), 10)];
+      renderAi(); openSheet('sheetAI');
+      if (ap && aiReady()) { $('#aiInput').value = 'What is the Jan Aushadhi price of ' + ap.n + '?'; $('#aiInput').focus(); }
+      return;
+    }
     if (t.hasAttribute('data-group')) { applyFilter('group', t.getAttribute('data-group')); return; }
     if (t.hasAttribute('data-skin-group')) { applyFilter('skingroup', t.getAttribute('data-skin-group')); return; }
     if (t.hasAttribute('data-skin-all')) { applyFilter('skin', ''); return; }
@@ -1822,6 +2052,17 @@ const META = {"githubUser": "vasudev-work"};
   $('#promoRx').addEventListener('click', function () { openSheet('sheetRx'); });
   $('#rxStart').addEventListener('click', function () { closeSheets(); setView('prescriptions'); setTimeout(function () { $('#rxInput').focus(); }, 60); });
   $('#promoAdd').addEventListener('click', function () { openSheet('sheetAdd'); });
+  var promoAi = $('#promoAi');
+  if (promoAi) promoAi.addEventListener('click', function () { renderAi(); openSheet('sheetAI'); });
+  var aiForm = $('#aiForm');
+  if (aiForm) aiForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var input = $('#aiInput');
+    var v = input.value.trim();
+    if (!v) return;
+    input.value = '';
+    aiAsk(v);
+  });
   $('#addSend').addEventListener('click', buildAddMail);
   $('#reportSend').addEventListener('click', buildReportMail);
   $('#rxGo').addEventListener('click', runRx);
