@@ -4,7 +4,8 @@ One static web page that lists Indian generic medicines with the **Jan Aushadhi 
 
 - Live page: `index.html` (self-contained — HTML, CSS and JS in one file)
 - Legal page: `legal.html`
-- 2,026 medicines in 59 therapeutic groups, plus 90 skin, hair and oral care products in 15 groups
+- 2,026 medicines in 59 therapeutic groups, plus 90 skin, hair and oral care products in 15 groups, plus 13 protein products
+- Branded market prices for 60 packs, from the Jan Aushadhi price comparison sheet, so the compare view shows real savings
 - 25 brand mappings for the search
 
 No build step, no framework, no CDN, no backend, no analytics, no cookies.
@@ -23,6 +24,15 @@ Two data notes on that sheet, both visible in the page rather than smoothed over
 
 - One row, **Nitroglycerin Controlled Release Tablets 6.4 mg**, is filed under *Moisturiser / dryness*. It is a cardiac tablet, so it is excluded from the skin care set rather than published under a skin category.
 - Several unit-size strings arrive truncated in the source (`20gm Tube`, `2.5ml with`, `10ml in`). They are reproduced as supplied; nothing is completed by guesswork.
+
+A third source is the **Jan Aushadhi price comparison sheets** photographed and supplied for this build: Analgesic, Antidiabetic, Anti-biotic/Anti-fungal, Dermatology, Supplements/Vitamins & Minerals, Eye/Ear drops, Gastrointestinal, Respiratory and Steroids & Hormones. Each row there prints the medicine, the unit size, the **PMBJP price** and the **branded price** side by side. 60 of those rows matched a listing in the medicine or skin care set, and the branded price now powers the compare view and the "you save" line.
+
+A fourth is the **Jan Aushadhi protein products price list** (13 items, drug codes 1464 to 2247 plus 2238): protein bars, powders, Janani, women's protein, renal and diabetes care powders and a whey protein jar, each with its protein content per 100 gm and its price.
+
+Two honest notes on the comparison sheets:
+
+- Their PMBJP prices are **not always identical** to the 2023 product list — for example Teneligliptin 20mg reads ₹50.00 on the sheet and ₹20.00 in the list, and most other rows sit about 6–10% lower on the sheet. The page keeps the list price as the headline and shows the sheet's figure in a "two prices for the same pack" note rather than silently overwriting one with the other.
+- Branded price is the market price of the equivalent brand as printed on that sheet. It is not a quote from any particular shop.
 
 Those six columns are what the page shows. The source list does **not** contain manufacturer names, stock, expiry, batch numbers or product photographs, so the page leaves them blank or says "not listed". Nothing is filled in by guesswork.
 
@@ -174,7 +184,7 @@ Both are plain email. There is no form endpoint, no server and no account.
 - **It cannot check stock.** No pharmacy inventory is connected.
 - **It cannot take payments.** No cart, no checkout, no prices other than the published MRP.
 - **It gives no medical advice.** Substitution and dosage are for a doctor or pharmacist. Every view carries "Information only. Always follow your doctor's prescription."
-- **It cannot show a brand's retail price.** The compare sheet shows the Jan Aushadhi MRP and says the brand MRP is not listed rather than inventing a number.
+- **It can only compare where the sheet prints a branded price.** For the 60 packs that have one, the compare sheet shows Jan Aushadhi price, branded price and the saving. For every other pack it says the branded price is not printed and shows no comparison, rather than inventing a number.
 - **It cannot show manufacturer or expiry.** Not in the source list.
 
 ## Running it
