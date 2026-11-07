@@ -6,7 +6,7 @@ One static web page that lists Indian generic medicines with the **Jan Aushadhi 
 - Legal page: `legal.html`
 - 2,026 medicines in 59 therapeutic groups, plus 90 skin, hair and oral care products in 15 groups, plus 13 protein products
 - Branded market prices for 60 packs, from the Jan Aushadhi price comparison sheet, so the compare view shows real savings
-- 25 brand mappings for the search
+- 26 brand mappings for the search
 
 No build step, no framework, no CDN, no backend, no analytics, no cookies.
 
@@ -33,6 +33,11 @@ Two honest notes on the comparison sheets:
 
 - Their PMBJP prices are **not always identical** to the 2023 product list — for example Teneligliptin 20mg reads ₹50.00 on the sheet and ₹20.00 in the list, and most other rows sit about 6–10% lower on the sheet. The page keeps the list price as the headline and shows the sheet's figure in a "two prices for the same pack" note rather than silently overwriting one with the other.
 - Branded price is the market price of the equivalent brand as printed on that sheet. It is not a quote from any particular shop.
+
+Two small updates come from **Jan Aushadhi Kendra posts** the operator sent (October 2026):
+
+- The **5-pad regular sanitary napkin pack** (JA-8199) is shown as "under process" in the 2023 list. The Kendra post and the PMBJP promo both price it at **₹5 for 5 pads**, which matches ₹1 a pad on the 4-pad (₹4) and 10-pad (₹10) packs already listed. That price is set, and the detail sheet says where it came from.
+- **Evion (Vitamin E 400)** was added to the brand mapping, so searching it lands on the Jan Aushadhi Vitamin E 400 softgel. Its owner is listed as Procter & Gamble Health, which took over Merck's consumer health brands.
 
 Those six columns are what the page shows. The source list does **not** contain manufacturer names, stock, expiry, batch numbers or product photographs, so the page leaves them blank or says "not listed". Nothing is filled in by guesswork.
 
