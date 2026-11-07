@@ -139,9 +139,11 @@ main{display:block}
 .card-top{display:flex; gap:11px; align-items:flex-start}
 .thumb{
   width:52px;height:52px;border-radius:var(--r-inner); flex:none;
-  display:grid; place-items:center; font-weight:800; font-size:20px;
-  color:#0B0B0B; letter-spacing:-.02em; overflow:hidden;
+  display:block; overflow:hidden; background:var(--surface2);
 }
+.thumb svg{width:100%;height:100%;display:block}
+body.lang-hi{font-family:"Noto Sans Devanagari","Nirmala UI","Mangal",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+body.lang-hi .row .name,body.lang-hi .card h3{line-height:1.45}
 .card h3{margin:0; font-size:14.5px; font-weight:700; line-height:1.35}
 .card .meta{font-size:12.5px; color:var(--muted); margin:2px 0 0}
 .badge{
@@ -587,12 +589,179 @@ const META = {"githubUser": "vasudev-work"};
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
 
+
+  /* ---------------- language (English + हिन्दी) ----------------
+     Strings are translated on the rendered DOM, so every view, sheet and
+     aria-label follows the switch without a second copy of the markup. */
+  var HI = {
+    'Jan Aushadhi prices, Indian generics': 'जन औषधि कीमतें, भारतीय जेनेरिक',
+    'Jan Aushadhi': 'जन औषधि', 'Medicines': 'दवाइयाँ', 'Search': 'खोजें',
+    'Prescriptions': 'पर्चे', 'You': 'आप', 'BROWSE': 'देखें',
+    "Information only. Always follow your doctor's prescription.": 'केवल जानकारी के लिए। हमेशा अपने डॉक्टर के पर्चे का पालन करें।',
+    'All': 'सभी', 'Pain & Fever': 'दर्द और बुखार', 'Diabetes': 'मधुमेह', 'Heart': 'हृदय',
+    'Vitamins': 'विटामिन', 'Baby care': 'शिशु देखभाल', 'Skin care': 'त्वचा देखभाल', 'Categories': 'श्रेणियाँ',
+    'Check my prescription': 'मेरा पर्चा जाँचें',
+    'Upload-free: type what your doctor wrote and see Indian generic options.': 'बिना अपलोड: जो डॉक्टर ने लिखा है उसे टाइप करें और भारतीय जेनेरिक विकल्प देखें।',
+    'Type a medicine name →': 'दवा का नाम टाइप करें →',
+    'Know a medicine we missed?': 'कोई दवा छूट गई है?',
+    'Send it to the operator by email. No account, no server.': 'ईमेल से ऑपरेटर तक भेजें। कोई खाता नहीं, कोई सर्वर नहीं।',
+    'Add a medicine →': 'दवा जोड़ें →',
+    'Indian generics for common brands': 'आम ब्रांडों के लिए भारतीय जेनेरिक',
+    'Suggested for you': 'आपके लिए सुझाव',
+    'Skin, hair and oral care': 'त्वचा, बाल और मुँह की देखभाल',
+    'Made in India': 'भारत में निर्मित',
+    'Details': 'विवरण', 'Compare': 'तुलना करें', 'Compare prices': 'कीमतों की तुलना',
+    'Save': 'सहेजें', 'Remove from saved': 'सहेजे गए से हटाएँ', 'Close': 'बंद करें',
+    'Report this listing': 'इस लिस्टिंग की शिकायत करें', 'Open details': 'विवरण खोलें',
+    'Price details': 'कीमत का विवरण', 'Change store': 'स्टोर बदलें', 'Show more': 'और दिखाएँ',
+    'Clear saved': 'सहेजे गए हटाएँ', 'Send by email': 'ईमेल से भेजें',
+    'Send report by email': 'शिकायत ईमेल से भेजें',
+    'Manufacturer': 'निर्माता', 'Pack size': 'पैक साइज़', 'Category': 'श्रेणी', 'Form': 'रूप',
+    'Product code': 'उत्पाद कोड', 'Jan Aushadhi MRP': 'जन औषधि MRP', 'Jan Aushadhi price': 'जन औषधि कीमत',
+    'MRP': 'MRP', 'Not listed in the source list': 'स्रोत सूची में दर्ज नहीं',
+    'Therapeutic category': 'चिकित्सीय श्रेणी', 'Therapeutic groups': 'चिकित्सीय समूह',
+    'Sub-categories': 'उप-श्रेणियाँ', 'form & route': 'रूप और मार्ग',
+    'Indian alternatives': 'भारतीय विकल्प', 'Other matches': 'अन्य मिलान',
+    'TRY AN INDIAN GENERIC': 'भारतीय जेनेरिक आज़माएँ', 'INDIAN GENERIC': 'भारतीय जेनेरिक',
+    'Saved': 'सहेजे गए', 'Appearance': 'दिखावट', 'Theme': 'थीम', 'Accent': 'रंग',
+    'Store': 'स्टोर', 'Operator': 'ऑपरेटर', 'Contribute': 'योगदान दें', 'About': 'परिचय',
+    'Language': 'भाषा', 'Add a medicine': 'दवा जोड़ें', 'Report a listing': 'लिस्टिंग की शिकायत',
+    'Legal, privacy and terms': 'कानूनी, गोपनीयता और शर्तें',
+    'System': 'सिस्टम', 'Dark': 'गहरा', 'Light': 'हल्का', 'Black': 'काला',
+    'All medicines': 'सभी दवाइयाँ', 'All stores': 'सभी स्टोर', 'Retail pharmacy': 'रिटेल फार्मेसी',
+    'Online pharmacy': 'ऑनलाइन फार्मेसी', 'Hospital pharmacy': 'अस्पताल फार्मेसी',
+    'Choose a store': 'स्टोर चुनें',
+    'Only Jan Aushadhi has data in this build. The others are listed so the gap is visible.': 'इस बिल्ड में केवल जन औषधि का डेटा है। बाकी इसलिए दिखाए गए हैं ताकि कमी साफ़ दिखे।',
+    'Add a medicine': 'दवा जोड़ें',
+    'Medicine name': 'दवा का नाम', 'Pack size': 'पैक साइज़', 'Link (optional)': 'लिंक (वैकल्पिक)',
+    'Why should it be listed?': 'इसे सूची में क्यों जोड़ा जाए?',
+    'Details (optional)': 'विवरण (वैकल्पिक)',
+    'What is wrong with this listing?': 'इस लिस्टिंग में क्या गड़बड़ है?',
+    'Reports reach the operator by email. No account and no server involved.': 'शिकायतें ईमेल से ऑपरेटर तक पहुँचती हैं। कोई खाता नहीं, कोई सर्वर नहीं।',
+    'Not an Indian product': 'भारतीय उत्पाद नहीं है',
+    'Wrong price or pack size': 'कीमत या पैक साइज़ गलत है',
+    'Expired or near-expiry stock shown': 'एक्सपायरी या नज़दीकी एक्सपायरी का स्टॉक दिखाया गया',
+    'Fake or duplicate listing': 'नकली या दोहरी लिस्टिंग',
+    'Wrong manufacturer': 'निर्माता गलत है',
+    'This opens your email app with the details filled in. Nothing is sent anywhere else.': 'इससे आपका ईमेल ऐप खुलेगा जिसमें विवरण भरा होगा। कहीं और कुछ नहीं भेजा जाता।',
+    'How prescription checking works': 'पर्चा जाँच कैसे काम करता है',
+    'What your doctor wrote': 'डॉक्टर ने क्या लिखा है',
+    'Show Indian generic options': 'भारतीय जेनेरिक विकल्प दिखाएँ',
+    'Start typing a name': 'नाम टाइप करना शुरू करें',
+    'Foreign-owned brand': 'विदेशी स्वामित्व वाला ब्रांड',
+    'Two sources, two prices': 'दो स्रोत, दो कीमतें',
+    'No listing matches': 'कोई लिस्टिंग नहीं मिली',
+    'not listed': 'दर्ज नहीं', 'Manufacturer not listed': 'निर्माता दर्ज नहीं',
+    'Indian option found': 'भारतीय विकल्प मिला', 'no data in this build': 'इस बिल्ड में डेटा नहीं',
+    'brand MRP': 'ब्रांड MRP', 'no match': 'कोई मिलान नहीं',
+    'Nature of the listing': 'लिस्टिंग की प्रकृति',
+    'This build holds Jan Aushadhi MRP only. It does not hold retail brand prices, so no comparison figure is invented.': 'इस बिल्ड में केवल जन औषधि MRP है। रिटेल ब्रांड कीमतें नहीं हैं, इसलिए कोई तुलना आँकड़ा गढ़ा नहीं गया।',
+    'Illustration': 'चित्र',
+    'Crocin, Dolo 650, paracetamol…': 'क्रोसिन, डोलो 650, पैरासिटामोल…',
+    'Search medicines': 'दवाइयाँ खोजें',
+    'Filter by category': 'श्रेणी से छाँटें',
+    'Primary': 'मुख्य मेन्यू',
+    'Choose a store': 'स्टोर चुनें',
+    'Close store picker': 'स्टोर चयन बंद करें', 'Close details': 'विवरण बंद करें',
+    'Close add form': 'फ़ॉर्म बंद करें', 'Close report form': 'शिकायत फ़ॉर्म बंद करें',
+    'Close price': 'कीमत बंद करें', 'Close compare': 'तुलना बंद करें',
+    'Close explainer': 'जानकारी बंद करें',
+    'Switch to light theme': 'हल्की थीम पर जाएँ', 'Switch to dark theme': 'गहरी थीम पर जाएँ',
+    'Stores': 'स्टोर', 'Category': 'श्रेणी',
+    'Type a brand or a generic name. Try one of these:': 'ब्रांड या जेनेरिक नाम टाइप करें। इनमें से आज़माएँ:',
+    'No other listings match that name.': 'इस नाम से कोई अन्य लिस्टिंग नहीं मिली।',
+    'Nothing in this filter.': 'इस फ़िल्टर में कुछ नहीं है।',
+    'Nothing saved yet. Tap the star on any card or in a detail sheet. Saved items stay in this browser only.': 'अभी कुछ सहेजा नहीं गया। किसी कार्ड या विवरण में तारे पर टैप करें। सहेजी गई चीज़ें केवल इसी ब्राउज़र में रहती हैं।',
+    'Searches run on this device against the embedded Jan Aushadhi list. Nothing is sent anywhere.': 'खोज इसी डिवाइस पर भीतर दी गई जन औषधि सूची में होती है। कहीं कुछ नहीं भेजा जाता।',
+    'Current store:': 'मौजूदा स्टोर:',
+    'Interface language. Medicine names, categories and manufacturers stay as printed in the source list.': 'इंटरफ़ेस की भाषा। दवाओं के नाम, श्रेणियाँ और निर्माता स्रोत सूची के अनुसार अंग्रेज़ी में ही रहते हैं।'
+  };
+  var HI_PATTERNS = [
+    [/^(\d+) products$/, '$1 उत्पाद'],
+    [/^(\d+) groups$/, '$1 समूह'],
+    [/^(\d+) mapped brands$/, '$1 मैप किए ब्रांड'],
+    [/^See all (\d+)$/, 'सभी $1 देखें'],
+    [/^(\d+) Indian options? found$/, '$1 भारतीय विकल्प मिले'],
+    [/^(\d+) matches? in the Jan Aushadhi lists$/, 'जन औषधि सूचियों में $1 मिलान'],
+    [/^(\d+) matches?$/, '$1 मिलान'],
+    [/^(\d+) products · (\d+) therapeutic groups$/, '$1 उत्पाद · $2 चिकित्सीय समूह'],
+    [/^Therapeutic category: (.*)$/, 'चिकित्सीय श्रेणी: $1'],
+    [/^Product: (.*)$/, 'उत्पाद: $1'],
+    [/^Indian options? found$/, 'भारतीय विकल्प मिले'],
+    [/^matches? in the Jan Aushadhi lists$/, 'जन औषधि सूचियों में मिलान'],
+    [/^match(es)?$/, 'मिलान'],
+    [/^(.*) · Manufacturer not listed$/, '$1 · निर्माता दर्ज नहीं'],
+    [/^Manufacturer not listed$/, 'निर्माता दर्ज नहीं'],
+    [/^(\d+) of (\d+)$/, '$1 / $2']
+  ];
+  function tr(s) {
+    if (prefs.lang !== 'hi') return s;
+    if (HI[s] != null) return HI[s];
+    for (var i = 0; i < HI_PATTERNS.length; i++) {
+      if (HI_PATTERNS[i][0].test(s)) return s.replace(HI_PATTERNS[i][0], HI_PATTERNS[i][1]);
+    }
+    return s;
+  }
+  var TRANSLATABLE_ATTRS = ['placeholder', 'aria-label', 'title'];
+  var ORIGINAL_TEXT = new WeakMap();
+  var ORIGINAL_ATTR = new WeakMap();
+  function restoreTree(root) {
+    if (!root) return;
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+    var n, nodes = [];
+    while ((n = walker.nextNode())) nodes.push(n);
+    nodes.forEach(function (node) {
+      if (ORIGINAL_TEXT.has(node)) node.nodeValue = ORIGINAL_TEXT.get(node);
+    });
+    var els = root.querySelectorAll ? root.querySelectorAll('[placeholder],[aria-label],[title]') : [];
+    Array.prototype.forEach.call(els, function (el) {
+      var saved = ORIGINAL_ATTR.get(el);
+      if (!saved) return;
+      Object.keys(saved).forEach(function (a) { el.setAttribute(a, saved[a]); });
+    });
+  }
+  function translateTree(root) {
+    if (!root || prefs.lang !== 'hi') return;
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+    var n, nodes = [];
+    while ((n = walker.nextNode())) nodes.push(n);
+    nodes.forEach(function (node) {
+      var raw = node.nodeValue;
+      var txt = raw.trim();
+      if (!txt) return;
+      var out = tr(txt);
+      if (out !== txt) {
+        if (!ORIGINAL_TEXT.has(node)) ORIGINAL_TEXT.set(node, raw);
+        node.nodeValue = raw.replace(txt, out);
+      }
+    });
+    var els = root.querySelectorAll ? root.querySelectorAll('[placeholder],[aria-label],[title]') : [];
+    Array.prototype.forEach.call(els, function (el) {
+      TRANSLATABLE_ATTRS.forEach(function (a) {
+        var v = el.getAttribute(a);
+        if (v && tr(v) !== v) {
+          var saved = ORIGINAL_ATTR.get(el) || {};
+          if (!(a in saved)) saved[a] = v;
+          ORIGINAL_ATTR.set(el, saved);
+          el.setAttribute(a, tr(v));
+        }
+      });
+    });
+  }
+  function applyLang() {
+    document.documentElement.setAttribute('lang', prefs.lang === 'hi' ? 'hi' : 'en');
+    document.body.classList.toggle('lang-hi', prefs.lang === 'hi');
+    if (prefs.lang === 'hi') translateTree(document.body);
+    else restoreTree(document.body);
+  }
+
   /* ---------------- prefs ---------------- */
   function loadPrefs() {
     var p = {};
     try { p = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { p = {}; }
     if (!p.theme) p.theme = 'dark';
     if (!p.accent) p.accent = 'green';
+    if (!p.lang) p.lang = 'en';
     if (!Array.isArray(p.saved)) p.saved = [];
     if (!p.uid) {
       p.uid = 'u-' + Math.random().toString(36).slice(2, 10);
@@ -643,10 +812,76 @@ const META = {"githubUser": "vasudev-work"};
     for (var i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) % 360;
     return 18 + (h % 205);
   }
-  function thumb(name, cls) {
-    var h = hue(name);
-    var style = 'background:linear-gradient(150deg,hsl(' + h + ',62%,72%),hsl(' + ((h + 28) % 360) + ',58%,58%))';
-    return '<span class="' + (cls || 'thumb') + '" aria-hidden="true" style="' + style + '">' + esc(initial(name)) + '</span>';
+  /* A drawn pack for every listing: form, strength and category colour.
+     Generated here in SVG because the Jan Aushadhi lists carry no photographs. */
+  function strengthOf(name) {
+    var m = String(name).match(/(\d+(?:\.\d+)?\s?(?:mg|mcg|gm|g|ml|IU|%|w\/w|w\/v|spores?))\b/i);
+    return m ? m[1].replace(/\s+/g, '') : '';
+  }
+  function packArt(p, big) {
+    var name = p.n || '';
+    var cat = p.c || name;
+    var h = hue(cat);
+    var f = formOf(name);
+    var bg = 'hsl(' + h + ',48%,' + (isDark() ? '20%' : '93%') + ')';
+    var ink = 'hsl(' + h + ',62%,' + (isDark() ? '66%' : '38%') + ')';
+    var ink2 = 'hsl(' + h + ',62%,' + (isDark() ? '50%' : '55%') + ')';
+    var g = '';
+    var st = 'fill="none" stroke="' + ink + '" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"';
+    if (f === 'Capsule' || f === 'Tablet') {
+      var n = parseInt(String(p.s || '').match(/(\d+)\s*'s/), 10);
+      var count = isNaN(n) ? (f === 'Tablet' ? 8 : 6) : Math.max(2, Math.min(n, 12));
+      var cols = count <= 6 ? 2 : (count % 3 === 0 ? 3 : 2);
+      var rows = Math.ceil(count / cols);
+      var cw = cols === 3 ? 15 : 20, ch = rows >= 5 ? 12 : 15;
+      var w = cols * cw + 8, hh = rows * ch + 8;
+      var x0 = 50 - w / 2, y0 = 50 - hh / 2;
+      g = '<rect x="' + x0 + '" y="' + y0 + '" width="' + w + '" height="' + hh + '" rx="7" ' + st + ' stroke-width="3"/>';
+      for (var i = 0; i < count; i++) {
+        var cx = x0 + 4 + cw / 2 + (i % cols) * cw;
+        var cy = y0 + 4 + ch / 2 + Math.floor(i / cols) * ch;
+        if (f === 'Tablet') g += '<circle cx="' + cx + '" cy="' + cy + '" r="' + (Math.min(cw, ch) / 2 - 2.6) + '" fill="' + ink2 + '"/>';
+        else g += '<rect x="' + (cx - cw / 2 + 3) + '" y="' + (cy - 3.2) + '" width="' + (cw - 6) + '" height="6.4" rx="3.2" fill="' + ink2 + '"/>';
+      }
+    } else if (f === 'Injection') {
+      g = '<rect x="40" y="30" width="20" height="44" rx="5" ' + st + '/>' +
+          '<path d="M45 30v-8h10v8M42 62h16" ' + st + '/>';
+    } else if (f === 'Syrup / suspension') {
+      g = '<path d="M38 32h24v42a6 6 0 0 1-6 6H44a6 6 0 0 1-6-6z" ' + st + '/>' +
+          '<path d="M44 32v-9h12v9" ' + st + '/><path d="M38 52h24" stroke="' + ink2 + '" stroke-width="4"/>';
+    } else if (f === 'Cream / ointment / gel') {
+      g = '<path d="M42 26h16l3 50H39z" ' + st + '/><path d="M42 34h16" ' + st + '/>' +
+          '<rect x="44" y="18" width="12" height="8" rx="2" ' + st + '/>';
+    } else if (f === 'Drops / eye / ear') {
+      g = '<path d="M40 40h20v34a6 6 0 0 1-6 6h-8a6 6 0 0 1-6-6z" ' + st + '/>' +
+          '<path d="M46 40V26h8v14" ' + st + '/><circle cx="50" cy="58" r="4" fill="' + ink + '"/>';
+    } else if (f === 'Inhaler / spray') {
+      g = '<rect x="38" y="34" width="18" height="42" rx="6" ' + st + '/>' +
+          '<path d="M56 40h10v14H56" ' + st + '/>';
+    } else if (f === 'Powder / sachet') {
+      g = '<path d="M32 34l6-10h24l6 10v40a4 4 0 0 1-4 4H36a4 4 0 0 1-4-4z" ' + st + '/>' +
+          '<path d="M38 24l3 10M62 24l-3 10" ' + st + '/>';
+    } else if (f === 'Device / consumable') {
+      g = '<path d="M30 40l20-10 20 10v26L50 76 30 66z" ' + st + '/><path d="M30 40l20 10 20-10M50 50v26" ' + st + '/>';
+    } else {
+      g = '<circle cx="50" cy="50" r="22" ' + st + '/><path d="M50 32v36" stroke="' + ink2 + '" stroke-width="4"/>';
+    }
+    var label = big ? '<text x="50" y="92" text-anchor="middle" font-size="11" font-weight="700" fill="' + ink + '" font-family="system-ui,sans-serif">' + esc(strengthOf(name) || formShort(f)) + '</text>' : '';
+    return '<svg viewBox="0 0 100 100" role="img" aria-hidden="true" focusable="false">' +
+      '<rect width="100" height="100" rx="22" fill="' + bg + '"/>' + g + label + '</svg>';
+  }
+  function formShort(f) {
+    return { 'Tablet': 'TAB', 'Capsule': 'CAP', 'Injection': 'INJ', 'Syrup / suspension': 'SYR',
+      'Cream / ointment / gel': 'CRM', 'Drops / eye / ear': 'DRP', 'Inhaler / spray': 'INH',
+      'Powder / sachet': 'PDR', 'Device / consumable': 'DEV' }[f] || 'MED';
+  }
+  function isDark() {
+    var t = document.documentElement.getAttribute('data-theme');
+    return t !== 'light';
+  }
+  function thumb(x, cls) {
+    var p = (typeof x === 'string') ? { n: x, c: x } : x;
+    return '<span class="' + (cls || 'thumb') + '" aria-hidden="true">' + packArt(p, cls === 'avatar') + '</span>';
   }
   function priceOf(p) { return p.pr ? '₹' + p.pr : 'not listed'; }
   function priceShort(p) { return p.pr ? '₹' + p.pr : '—'; }
@@ -719,7 +954,7 @@ const META = {"githubUser": "vasudev-work"};
     var p = BY_SR[b.primary];
     if (!p) return '';
     return '<article class="card">' +
-      '<div class="card-top">' + thumb(p.n) +
+      '<div class="card-top">' + thumb(p) +
         '<div style="min-width:0"><h3>' + esc(b.brand) + ' &rarr; ' + esc(p.n) + '</h3>' +
         '<p class="meta">' + esc(p.s) + ' · ' + esc(p.m || 'Manufacturer not listed') + '</p>' +
         '<span class="badge">Made in India</span></div>' +
@@ -727,7 +962,7 @@ const META = {"githubUser": "vasudev-work"};
           '<svg viewBox="0 0 24 24" fill="' + (isSaved(p.sr) ? 'currentColor' : 'none') + '" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 18l-5.9 3 1.2-6.5L2.5 9.9 9.1 9z"/></svg>' +
         '</button>' +
       '</div>' +
-      '<p>' + esc(b.brand) + ' is owned by ' + esc(b.owner) + ' (' + esc(b.country) + '). Jan Aushadhi price: ' + priceOf(p) + ' for ' + esc(p.s) + '.</p>' +
+      '<p>' + esc(brandLine(b, p)) + '</p>' +
       '<div class="actions">' +
         '<button class="btn" data-detail="' + p.sr + '" data-brand="' + esc(b.brand) + '">Details</button>' +
         '<button class="btn" data-price="' + p.sr + '">Jan Aushadhi</button>' +
@@ -735,9 +970,20 @@ const META = {"githubUser": "vasudev-work"};
       '</div></article>';
   }
 
+  function brandLine(b, p) {
+    if (prefs.lang === 'hi') {
+      return b.brand + ' का मालिक ' + b.owner + ' (' + b.country + ') है। जन औषधि कीमत: ' + priceOf(p) + ' · ' + p.s;
+    }
+    return b.brand + ' is owned by ' + b.owner + ' (' + b.country + '). Jan Aushadhi price: ' + priceOf(p) + ' for ' + p.s + '.';
+  }
+  function descOf(p) {
+    if (prefs.lang === 'hi') return formOf(p.n) + ' · ' + p.c + ' · पैक ' + p.s;
+    return p.d;
+  }
+
   /* ---------------- rows ---------------- */
   function row(p, extra) {
-    return '<button class="row" data-detail="' + p.sr + '">' + thumb(p.n) +
+    return '<button class="row" data-detail="' + p.sr + '">' + thumb(p) +
       '<span class="txt"><span class="name">' + esc(p.n) + '</span>' +
       '<span class="sub">' + esc(p.c) + ' · ' + esc(p.s) + (extra ? ' · ' + esc(extra) : '') + '</span></span>' +
       '<span class="price">' + priceShort(p) + '<small>' + esc(p.s) + '</small></span>' +
@@ -785,8 +1031,11 @@ const META = {"githubUser": "vasudev-work"};
     html += '<div class="rows">' + suggested.map(function (p) { return row(p); }).join('') + '</div>';
     html += '<div class="sec-head"><h2>Skin, hair and oral care</h2><button class="link" data-skin-all="1">See all ' + SKIN.length + '</button></div>';
     html += '<div class="rows">' + SKIN.slice(0, 6).map(function (p) { return row(p); }).join('') + '</div>';
-    html += '<p class="tiny" style="padding:14px 14px 0">Prices are the MRP printed in the Jan Aushadhi product list dated 13.01.2023. Manufacturer names are not part of that list, so they are left blank rather than guessed.</p>';
+    html += '<p class="tiny" style="padding:14px 14px 0">' + (prefs.lang === 'hi'
+      ? 'कीमतें जन औषधि उत्पाद सूची (13.01.2023) में छपे MRP हैं। निर्माताओं के नाम उस सूची में नहीं हैं, इसलिए अंदाज़ा लगाने के बजाय खाली छोड़े गए हैं।'
+      : 'Prices are the MRP printed in the Jan Aushadhi product list dated 13.01.2023. Manufacturer names are not part of that list, so they are left blank rather than guessed.') + '</p>';
     $('#homeBody').innerHTML = html;
+    translateTree($('#homeBody'));
   }
 
   /* ---------------- medicines ---------------- */
@@ -799,6 +1048,7 @@ const META = {"githubUser": "vasudev-work"};
     $('#medList').innerHTML = slice.length ? slice.map(function (p) { return row(p); }).join('')
       : '<div class="empty">Nothing in this filter.</div>';
     $('#medMore').hidden = list.length <= state.shown;
+    translateTree($('#view-medicines'));
     if (!list.length) $('#medList').innerHTML = '<div class="empty">Nothing in this filter.</div>';
   }
 
@@ -866,8 +1116,12 @@ const META = {"githubUser": "vasudev-work"};
       var others = productSearch(q, 40).filter(function (p) { return altSrs.indexOf(p.sr) === -1; });
       html += '<p class="countline"><b>' + alts.length + '</b> Indian option' + (alts.length === 1 ? '' : 's') + ' found</p>';
       html += '<div class="banner"><span class="eyebrow">TRY AN INDIAN GENERIC</span>' +
-        '<p>You searched for <em>' + esc(q) + '</em> — try <em>' + esc(alts[0].n) + '</em> (' + priceOf(alts[0]) + ' for ' + esc(alts[0].s) + ').</p>' +
-        '<span class="cat">Therapeutic category: ' + esc(b.category) + (b.country !== 'India' ? ' · ' + esc(b.brand) + ' is owned by ' + esc(b.owner) + ', ' + esc(b.country) : ' · ' + esc(b.brand) + ' is an Indian brand (' + esc(b.owner) + ')') + '</span></div>';
+        '<p>' + (prefs.lang === 'hi'
+          ? 'आपने <em>' + esc(q) + '</em> खोजा — आज़माएँ <em>' + esc(alts[0].n) + '</em> (' + priceOf(alts[0]) + ' · ' + esc(alts[0].s) + ')।'
+          : 'You searched for <em>' + esc(q) + '</em> — try <em>' + esc(alts[0].n) + '</em> (' + priceOf(alts[0]) + ' for ' + esc(alts[0].s) + ').') + '</p>' +
+        '<span class="cat">' + (prefs.lang === 'hi' ? 'चिकित्सीय श्रेणी: ' : 'Therapeutic category: ') + esc(b.category) +
+          (b.country !== 'India' ? ' · ' + esc(b.brand) + (prefs.lang === 'hi' ? ' का मालिक ' : ' is owned by ') + esc(b.owner) + ', ' + esc(b.country)
+                                 : ' · ' + esc(b.brand) + (prefs.lang === 'hi' ? ' भारतीय ब्रांड (' : ' is an Indian brand (') + esc(b.owner) + ')') + '</span></div>';
       html += '<div class="sec-head"><h2>Indian alternatives</h2><span class="count">' + alts.length + '</span></div>';
       html += '<div class="rows">' + alts.map(function (p) { return row(p, formOf(p.n)); }).join('') + '</div>';
       html += '<div class="sec-head"><h2>Other matches</h2><span class="count">' + others.length + '</span></div>';
@@ -896,6 +1150,7 @@ const META = {"githubUser": "vasudev-work"};
 
   function renderSearch() {
     $('#searchBody').innerHTML = searchHTML(state.q);
+    translateTree($('#searchBody'));
     var q = $('#q');
     if (q && q.value !== state.q) q.value = state.q;
   }
@@ -910,6 +1165,7 @@ const META = {"githubUser": "vasudev-work"};
     });
     var groups = Object.keys(counts).sort(function (a, b) { return counts[b] - counts[a]; });
     $('#catCount').textContent = groups.length + ' groups';
+    translateTree($('#view-categories'));
     $('#catList').innerHTML = groups.map(function (g) {
       return '<button class="row" data-group="' + esc(g) + '">' +
         '<span class="avatar" aria-hidden="true" style="background:linear-gradient(150deg,hsl(' + hue(g) + ',62%,72%),hsl(' + ((hue(g) + 28) % 360) + ',58%,58%))">' + esc(initial(g)) + '</span>' +
@@ -949,6 +1205,12 @@ const META = {"githubUser": "vasudev-work"};
         : '<p>Nothing saved yet. Tap the star on any card or in a detail sheet. Saved items stay in this browser only.</p>') +
       '</div>';
 
+    html += '<div class="block"><h2>Language</h2><p>Interface language. Medicine names, categories and manufacturers stay as printed in the source list.</p>' +
+      '<div class="segmented" role="group" aria-label="Language">' +
+      [['en', 'English'], ['hi', 'हिन्दी']].map(function (l) {
+        return '<button data-lang-opt="' + l[0] + '" aria-pressed="' + (prefs.lang === l[0]) + '">' + l[1] + '</button>';
+      }).join('') + '</div></div>';
+
     html += '<div class="block"><h2>Appearance</h2>' +
       '<p>Theme</p><div class="segmented" role="group" aria-label="Theme">' +
       ['system', 'dark', 'light', 'black'].map(function (t) {
@@ -982,6 +1244,7 @@ const META = {"githubUser": "vasudev-work"};
       '<span><strong>Make in India</strong><span>Jan Aushadhi medicines are produced by Indian manufacturers under the PMBJP.</span></span></div>';
 
     $('#youBody').innerHTML = html;
+    translateTree($('#youBody'));
   }
   function chev() {
     return '<span class="chev"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>';
@@ -1015,6 +1278,7 @@ const META = {"githubUser": "vasudev-work"};
     if (!el) return;
     el.classList.add('open');
     el.setAttribute('aria-hidden', 'false');
+    translateTree(el);
     $('#scrim').classList.add('open');
     openSheetEl = el;
     var focusable = el.querySelector('button, input, textarea, a');
@@ -1039,7 +1303,7 @@ const META = {"githubUser": "vasudev-work"};
     $('#detailBody').innerHTML =
       '<div class="close-row"><button class="icon-btn" data-close aria-label="Close details">' +
         '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>' +
-      '<div style="display:flex;gap:14px;align-items:flex-start">' + thumb(p.n) +
+      '<div style="display:flex;gap:14px;align-items:flex-start">' + thumb(p) +
       '<div><h2 id="dTitle">' + esc(p.n) + '</h2><span class="badge">Made in India</span></div></div>' +
       '<dl class="kv">' +
         '<dt>Manufacturer</dt><dd>' + esc(p.m || 'Not listed in the source list') + '</dd>' +
@@ -1049,7 +1313,8 @@ const META = {"githubUser": "vasudev-work"};
         '<dt>Jan Aushadhi MRP</dt><dd>' + priceOf(p) + '</dd>' +
         '<dt>Product code</dt><dd>' + esc(p.p) + '</dd>' +
       '</dl>' +
-      '<p style="font-size:13.5px">' + esc(p.d) + '</p>' + own +
+      '<p style="font-size:13.5px">' + esc(descOf(p)) + '</p>' +
+      '<p class="tiny">The picture is a drawing built from this listing — form, strength and category. The Jan Aushadhi lists carry no product photographs, so none are shown.</p>' + own +
       '<div class="sheet-actions">' +
         '<button class="btn primary" data-price="' + p.sr + '">Jan Aushadhi price</button>' +
         '<button class="btn" data-compare="' + p.sr + '"' + (b ? ' data-brand="' + esc(b.brand) + '"' : '') + '>Compare prices</button>' +
@@ -1086,7 +1351,7 @@ const META = {"githubUser": "vasudev-work"};
     if (!p) return;
     var b = brandName ? BRANDS.filter(function (x) { return x.brand === brandName; })[0] : null;
     var brandRow = b
-      ? '<div class="rows" style="padding:0"><div class="row" style="cursor:default">' + thumb(b.brand) +
+      ? '<div class="rows" style="padding:0"><div class="row" style="cursor:default">' + thumb({ n: b.brand, c: b.brand }) +
         '<span class="txt"><span class="name">' + esc(b.brand) + '</span><span class="sub">' + esc(b.owner) + ', ' + esc(b.country) + '</span></span>' +
         '<span class="price" style="color:var(--muted)">not listed<small>brand MRP</small></span></div></div>'
       : '';
@@ -1096,7 +1361,7 @@ const META = {"githubUser": "vasudev-work"};
       '<h2 id="cTitle">Compare prices</h2>' +
       '<p class="tiny" style="margin:6px 0 12px">This build holds Jan Aushadhi MRP only. It does not hold retail brand prices, so no comparison figure is invented.</p>' +
       brandRow +
-      '<div class="rows" style="padding:0;margin-top:8px"><div class="row" style="cursor:default">' + thumb(p.n) +
+      '<div class="rows" style="padding:0;margin-top:8px"><div class="row" style="cursor:default">' + thumb(p) +
       '<span class="txt"><span class="name">' + esc(p.n) + '</span><span class="sub">Jan Aushadhi · ' + esc(p.s) + '</span></span>' +
       '<span class="price">' + priceShort(p) + '<small>' + esc(p.s) + '</small></span></div></div>' +
       '<div class="sheet-actions"><button class="btn primary" data-price="' + p.sr + '">Price details</button><button class="btn ghost" data-close>Close</button></div>';
@@ -1184,6 +1449,7 @@ const META = {"githubUser": "vasudev-work"};
     if (v === 'search') renderSearch();
     if (v === 'categories') renderCategories();
     if (v === 'you') renderYou();
+    applyLang();
     window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
     if (location.hash !== '#' + v) history.replaceState(null, '', '#' + v);
   }
@@ -1212,11 +1478,12 @@ const META = {"githubUser": "vasudev-work"};
       html += '<div class="rows" style="margin-top:10px">' + (hits.length ? hits.map(function (p) { return row(p); }).join('') : '<div class="empty">No Jan Aushadhi listing matches “' + esc(line) + '”. Ask your pharmacist for the generic name.</div>') + '</div>';
     });
     $('#rxResults').innerHTML = html;
+    translateTree($('#rxResults'));
   }
 
   /* ---------------- events ---------------- */
   document.addEventListener('click', function (e) {
-    var t = e.target.closest('[data-nav],[data-chip],[data-detail],[data-star],[data-price],[data-compare],[data-report],[data-group],[data-form],[data-skin-group],[data-skin-all],[data-store],[data-suggest],[data-close],[data-theme-opt],[data-accent-opt],[data-store-sheet]');
+    var t = e.target.closest('[data-nav],[data-chip],[data-detail],[data-star],[data-price],[data-compare],[data-report],[data-group],[data-form],[data-skin-group],[data-skin-all],[data-store],[data-suggest],[data-close],[data-theme-opt],[data-accent-opt],[data-lang-opt],[data-store-sheet]');
     if (!t) return;
 
     if (t.hasAttribute('data-close')) { closeSheets(); return; }
@@ -1264,6 +1531,13 @@ const META = {"githubUser": "vasudev-work"};
       if (state.view === 'you') renderYou();
       return;
     }
+    if (t.hasAttribute('data-lang-opt')) {
+      prefs.lang = t.getAttribute('data-lang-opt');
+      savePrefs(prefs);
+      document.body.classList.toggle('lang-hi', prefs.lang === 'hi');
+      setView(state.view);
+      return;
+    }
     if (t.hasAttribute('data-theme-opt')) {
       prefs.theme = t.getAttribute('data-theme-opt');
       savePrefs(prefs); applyPrefs(); renderYou();
@@ -1271,7 +1545,7 @@ const META = {"githubUser": "vasudev-work"};
     }
     if (t.hasAttribute('data-accent-opt')) {
       prefs.accent = t.getAttribute('data-accent-opt');
-      savePrefs(prefs); applyPrefs(); renderYou();
+      savePrefs(prefs); applyPrefs(); setView(state.view);
       return;
     }
   });
@@ -1280,7 +1554,7 @@ const META = {"githubUser": "vasudev-work"};
     var cur = resolveTheme(prefs.theme);
     prefs.theme = (cur === 'light') ? 'dark' : 'light';
     savePrefs(prefs); applyPrefs();
-    if (state.view === 'you') renderYou();
+    setView(state.view);
   });
 
   $('#storePill').addEventListener('click', function () { renderStoreOpts(); openSheet('sheetStore'); });
@@ -1326,6 +1600,7 @@ const META = {"githubUser": "vasudev-work"};
 
   /* ---------------- boot ---------------- */
   applyPrefs();
+  applyLang();
   renderChips();
   $('#storePillLabel').textContent = storeLabel(state.store);
   var start = (location.hash || '').replace('#', '');

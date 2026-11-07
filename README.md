@@ -106,6 +106,29 @@ Each product is embedded as:
 
 Skin care products live in a second array, `SKIN`, with the same shape plus two extra keys: `src: "skin"` and, where the drug code also exists in the 2023 list, `off: { pr, pg, n }` holding the official price and page for the dual-source note. Their serial numbers start at 10001 so saved items from the two sets never collide.
 
+## Pictures
+
+Every listing carries a drawing, generated in the page from the listing itself — never a photograph, never a downloaded image.
+
+- The silhouette follows the dosage form: a blister strip for tablets and capsules, a bottle for syrups and suspensions, a tube for creams, a vial for injections, a dropper for eye and ear drops, an inhaler, a sachet, or a box for devices.
+- For tablets and capsules the number of dots follows the pack size, so a 10's pack and a 15's pack do not look the same.
+- The colour comes from the therapeutic group, so a category reads consistently across the page.
+- The detail sheet shows the same drawing larger, with the strength printed on it.
+
+Why not photographs: the Jan Aushadhi product list and the skin care sheet carry no images, no image URLs and no manufacturer artwork. There is no licensed source of pack shots in this build, and the page is forbidden from loading anything from a CDN. So a real photo cannot be shown without inventing one or hotlinking someone else's. The drawing is labelled as a drawing in the detail sheet, and the old coloured letter tile still exists as the fallback if the SVG cannot render.
+
+All of it is about 40 lines of JavaScript that return an SVG string — no image files, no build step, and the page stays one file.
+
+## Languages
+
+The interface runs in **English** and **हिन्दी**. The switch lives in **You → Language**, is remembered in `localStorage`, and applies to every view, sheet, button, empty state and `aria-label`.
+
+How it works: there is one copy of the markup. `HI` is a dictionary of exact interface strings, `HI_PATTERNS` handles the ones with numbers in them (`12 products`, `See all 2026`, `3 Indian options found`), and a tree walker translates the rendered DOM after each render. Switching back to English restores the original text from a `WeakMap` snapshot, so nothing is lost.
+
+What deliberately stays English: **medicine names, therapeutic groups and manufacturer names**. Those are printed identifiers from the source lists — translating "Paracetamol Tablets IP 500 mg" into Hindi would make the page harder to match against a pack, a prescription or a pharmacist's shelf.
+
+To add a third language, copy the `HI` object, translate the values, and add the code to the switcher; nothing else in the page needs to change.
+
 ## Detail sheet
 
 Any card or row opens a sheet with the name, a **Made in India** badge, manufacturer (or "not listed in the source list"), pack size, category, dosage form, MRP, product code, a one-line description and the source page of the PDF.
