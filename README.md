@@ -3,6 +3,7 @@
 One static web page that lists Indian generic medicines with the **Jan Aushadhi (PMBJP) MRP**, and turns a search for a foreign brand into the Indian generic that matches it.
 
 - Live page: `index.html` (self-contained — HTML, CSS and JS in one file)
+- Beauty page: `beauty.html` (119 Indian cosmetics products, five-platform price comparison, 12 languages)
 - Legal page: `legal.html`
 - 2,026 medicines in 59 therapeutic groups, plus 90 skin, hair and oral care products in 15 groups, plus 13 protein products
 - Branded market prices for 60 packs, from the Jan Aushadhi price comparison sheet, so the compare view shows real savings
@@ -143,29 +144,6 @@ A product search matches on name, pack size and therapeutic group, so `sanitary 
 
 The lay-term result carries the line "This is not medical advice. Follow your doctor's prescription." A symptom is not a diagnosis, and this page only prices what is listed.
 
-## Optional AI assistant (bring your own key)
-
-The page can answer questions about its own listings, but only if **you** supply an API key. No key ships with this repository — search the file for `sk-` and you will find none — and nothing in the assistant runs until a key is added.
-
-**How it is wired**
-
-- Settings live in **You → AI assistant** or the assistant sheet itself: API key, endpoint, model. Defaults are an OpenAI-compatible endpoint and `gpt-4o-mini`; any OpenAI-compatible chat endpoint works.
-- The key, endpoint and model are stored in `localStorage` under `swadeshi.ai`, on that device only.
-- Only `https://` endpoints are accepted, because a key must never travel over plain HTTP.
-- Pressing **Ask** sends one request from the browser straight to the endpoint you named, with your key in the `Authorization` header. The operator of the page is not in that path and cannot see the request or the reply.
-
-**What the request contains**
-
-The question, plus at most fifteen matching rows from this page's own arrays — medicine name, pack size, Jan Aushadhi MRP, branded price and therapeutic group. The rows are picked by the same search functions the page uses: a brand match, a lay-term match, then plain product search. Your saved list, your searches, your theme and any identifier are never included.
-
-**What the model is told**
-
-A fixed system prompt: answer only from the rows supplied, never invent a price, pack, stock level or expiry, never give dosages, diagnoses or substitution instructions, and say plainly when the rows do not contain the answer. Replies are capped at about 350 tokens and 100 words.
-
-**Failure modes are shown, not hidden.** A 401 shows the provider's own message ("The provider answered 401. Incorrect API key provided."), a CORS block shows as a network error, and an empty reply says so. Removing the key wipes it from the browser and turns the feature off; the rest of the page never depended on it.
-
-**Caveats worth stating.** A model answer can still be wrong even when it is grounded, so the printed MRP on the page always wins. Provider terms and privacy policies apply to whatever you send them. And because the browser calls the provider directly, the provider must allow cross-origin requests — many do, some do not, and the error is shown as-is rather than retried somewhere else.
-
 ## Pictures
 
 Every listing carries a drawing, generated in the page from the listing itself — never a photograph, never a downloaded image.
@@ -248,6 +226,31 @@ Both are plain email. There is no form endpoint, no server and no account.
 - Typing is debounced by 140 ms; every keystroke re-renders from the in-memory arrays, so there is no network call at any point.
 - A product match searches name, pack size and therapeutic group, so `sanitary napkin 5`, `10's` or `ophthalmic` all work.
 - Brand and lay-term matches take precedence over plain text matching, and both show a banner before the rows so the reader knows why they are seeing those results.
+
+---
+
+## The beauty page (`beauty.html`)
+
+A second page on the same deployment compares **119 Indian cosmetics, skin care, hair, body and personal-care products** across **Meesho, Flipkart, Amazon.in, Nykaa and Purplle**.
+
+- 23 categories: lipstick, kajal, eyeliner, mascara, foundation, compact, blush, nail polish, face wash, moisturiser, serum, sunscreen, toner, face pack, shampoo, conditioner, hair oil, soap, body wash, deodorant, perfume, talc and oral care.
+- 51 brands, 233 individual platform prices, and at least one price for every product on the page.
+- Interface in 12 languages: English, हिन्दी, বাংলা, தமிழ், తెలుగు, मराठी, ગુજરાતી, ಕನ್ನಡ, മലയാളം, ਪੰਜਾਬੀ, ଓଡ଼ିଆ and اردو (the page flips to right-to-left for Urdu).
+- Cards and table views, category chips, brand/product search, sort by lowest price or biggest saving, light and dark themes, and a detail sheet per product that links each price back to the listing it was read from.
+
+### How the prices were collected
+
+Every price on the page was read off a real listing on Meesho, Flipkart, Amazon.in, Nykaa or Purplle on **7 November 2026**, and each one carries a link to the page it came from. Where no listing was found for a platform, the page shows a dash and a link to that platform's live search instead of a number. Nothing is estimated, and no MRP is copied into a selling price.
+
+Three things follow from that, and they are visible on the page rather than smoothed over:
+
+- **Prices are snapshots.** All five platforms re-price constantly. The page says so, and every price links out to today's listing.
+- **Shades and pack sizes differ between platforms.** A lipstick shade listed at ₹280 on Meesho may be a different shade from the ₹350 one on Flipkart. Where the listings differed, the note under the product says so.
+- **Meesho is thin for national brands.** It carries many unbranded and duplicate sellers, so a verified brand listing exists for only a few of these products. Meesho prices appear where a real listing was seen; everywhere else the card links to a Meesho search.
+
+The page is a single self-contained HTML file: no build step, no framework, no CDN, no backend, no analytics, no cookies. Product pictures are inline SVG drawn per category, so nothing is fetched from a third-party image host and no brand photography is reproduced. Interface strings were machine-translated and then checked; product names stay in the language the platform lists them in.
+
+Prices were gathered by reading public search results and listing pages; the page is not affiliated with, endorsed by or sponsored by any of the five platforms. Brand names belong to their owners.
 
 ## Running it
 
