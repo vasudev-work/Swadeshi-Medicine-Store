@@ -1008,6 +1008,66 @@ const META = {"githubUser": "vasudev-work"};
       '</button>';
   }
 
+
+  /* Lay-term search: people search "fever", "acidity", "sugar", not "Paracetamol IP".
+     Each entry maps everyday words to a filter over the listings. */
+  var LAY = [
+    { keys: ['fever', 'bukhar', 'temperature', 'बुखार'], label: 'Fever',
+      test: function (p) { return /paracetamol|ibuprofen|aceclofenac|mefenamic/i.test(p.n) && /tablet|syrup|suspension/i.test(p.n); } },
+    { keys: ['pain', 'dard', 'दर्द', 'painkiller', 'body ache'], label: 'Pain',
+      test: function (p) { return p.c === 'Analgesic/Antipyretic/Anti-Inflammatory'; } },
+    { keys: ['acidity', 'gas', 'heartburn', 'khatta', 'एसिडिटी', 'gastric', 'antacid'],
+      label: 'Acidity and gas',
+      test: function (p) { return p.c === 'Gastrointestinal (GIT)' && /pantoprazole|omeprazole|rabeprazole|esomeprazole|antacid|ranitidine|domperidone/i.test(p.n); } },
+    { keys: ['diabetes', 'sugar', 'sugar ki dawa', 'मधुमेह', 'insulin'],
+      label: 'Diabetes', test: function (p) { return p.c === 'Anti-Diabetic'; } },
+    { keys: ['bp', 'blood pressure', 'hypertension', 'रक्तचाप'],
+      label: 'Blood pressure',
+      test: function (p) { return p.c === 'Cardiovascular System (CVS)' && /amlodipine|telmisartan|losartan|atenolol|metoprolol|ramipril|olmesartan/i.test(p.n); } },
+    { keys: ['allergy', 'itching', 'khujli', 'एलर्जी', 'sneezing'],
+      label: 'Allergy and itching', test: function (p) { return p.c === 'Anti-Histaminic'; } },
+    { keys: ['cough', 'cold', 'khansi', 'जुकाम', 'खांसी'],
+      label: 'Cough and cold',
+      test: function (p) { return p.c === 'Respiratory' && /syrup|tablet|drops/i.test(p.n); } },
+    { keys: ['antibiotic', 'infection', 'एंटीबायोटिक'], label: 'Antibiotics',
+      test: function (p) { return p.c === 'Antibiotic'; } },
+    { keys: ['fungal', 'ringworm', 'daad', 'दाद', 'khujli fungal'], label: 'Fungal infection',
+      test: function (p) { return p.c === 'Fungal infection' || p.c === 'Anti-Fungal'; } },
+    { keys: ['dandruff', 'roosi', 'रूसी', 'hair fall'], label: 'Dandruff and scalp',
+      test: function (p) { return /ketoconazole|selenium sulphide|zinc pyrithione|coal tar/i.test(p.n) && /shampoo|lotion|soap/i.test(p.n); } },
+    { keys: ['worm', 'deworming', 'kide', 'कृमि'], label: 'Deworming',
+      test: function (p) { return p.c === 'Anthelmintic' || /albendazole|mebendazole|ivermectin tablets/i.test(p.n); } },
+    { keys: ['vomiting', 'nausea', 'ulti', 'उल्टी'], label: 'Vomiting and nausea',
+      test: function (p) { return p.c === 'Anti-Emetic'; } },
+    { keys: ['constipation', 'kabz', 'कब्ज'], label: 'Constipation',
+      test: function (p) { return /lactulose|bisacodyl|isabgol|sodium picosulfate|polyethylene glycol/i.test(p.n); } },
+    { keys: ['thyroid', 'थायरॉइड'], label: 'Thyroid',
+      test: function (p) { return p.c === 'Anti-Thyroid' || /thyroxine/i.test(p.n); } },
+    { keys: ['cholesterol', 'lipid', 'कोलेस्ट्रॉल'], label: 'Cholesterol',
+      test: function (p) { return /atorvastatin|rosuvastatin|simvastatin|fenofibrate/i.test(p.n); } },
+    { keys: ['vitamin d', 'calcium', 'हड्डी', 'weak bones'], label: 'Calcium and vitamin D',
+      test: function (p) { return /calcium|cholecalciferol|vitamin d/i.test(p.n); } },
+    { keys: ['iron', 'anaemia', 'khoon ki kami', 'खून की कमी'], label: 'Iron and anaemia',
+      test: function (p) { return /ferrous|iron|folic acid|haematinic/i.test(p.n); } },
+    { keys: ['eye', 'aankh', 'आँख', 'eye infection'], label: 'Eye and ear',
+      test: function (p) { return p.c === 'Opthalmic/Otic'; } },
+    { keys: ['scabies', 'khaaj', 'खुजली परजीवी'], label: 'Scabies',
+      test: function (p) { return p.c === 'Anti-parasitic (scabies/mites)' || /permethrin|ivermectin/i.test(p.n); } },
+    { keys: ['protein', 'whey', 'प्रोटीन', 'nutrition'], label: 'Protein and nutrition',
+      test: function (p) { return isProtein(p); } }
+  ];
+  function layMatch(q) {
+    var qn = norm(q);
+    if (!qn) return null;
+    for (var i = 0; i < LAY.length; i++) {
+      for (var k = 0; k < LAY[i].keys.length; k++) {
+        var key = norm(LAY[i].keys[k]);
+        if (qn === key || (qn.length >= 4 && key.indexOf(qn) === 0) || (qn.length >= 5 && key.indexOf(qn) > -1)) return LAY[i];
+      }
+    }
+    return null;
+  }
+
   /* ---------------- filtering ---------------- */
   function filtered() {
     if (state.filter.kind === 'chip') return PRODUCTS.filter(CHIP_TEST[state.filter.value] || function () { return false; });
@@ -1016,6 +1076,7 @@ const META = {"githubUser": "vasudev-work"};
     if (state.filter.kind === 'skin') return SKIN.slice();
     if (state.filter.kind === 'skingroup') return SKIN.filter(function (p) { return p.c === state.filter.value; });
     if (state.filter.kind === 'nutrition') return NUTRITION.slice();
+    if (state.filter.kind === 'lay' && state.lay) return ALL.filter(state.lay.test);
     return PRODUCTS;
   }
   function filterLabel() {
@@ -1028,6 +1089,7 @@ const META = {"githubUser": "vasudev-work"};
     if (state.filter.kind === 'skin') return 'Skin, hair and oral care';
     if (state.filter.kind === 'skingroup') return state.filter.value;
     if (state.filter.kind === 'nutrition') return 'Protein and nutrition';
+    if (state.filter.kind === 'lay') return state.filter.value;
     return 'All medicines';
   }
 
@@ -1122,7 +1184,7 @@ const META = {"githubUser": "vasudev-work"};
     if (!q) {
       return '<div class="empty">Type a brand or a generic name. Try one of these:' +
         '<div class="hintlist" style="padding:10px 0 0">' +
-        ['Crocin', 'Combiflam', 'Thyronorm', 'Paracetamol', 'Metformin', 'Shelcal'].map(function (h) {
+        ['Crocin', 'Combiflam', 'Thyronorm', 'Fever', 'Acidity', 'Diabetes', 'Dandruff', 'Shelcal'].map(function (h) {
           return '<button class="chip" data-suggest="' + esc(h) + '">' + esc(h) + '</button>';
         }).join('') + '</div></div>' +
         '<p class="tiny" style="padding:6px 14px">Searches run on this device against the embedded Jan Aushadhi list. Nothing is sent anywhere.</p>';
@@ -1159,6 +1221,21 @@ const META = {"githubUser": "vasudev-work"};
         '<span class="cat">Send the generic name you want mapped and it gets added to the table.</span></div>';
       html += '<div class="sec-head"><h2>Other matches</h2><span class="count">' + hits.length + '</span></div>';
       html += '<div class="rows">' + (hits.length ? hits.map(function (p) { return row(p); }).join('') : '<div class="empty">No listing in the Jan Aushadhi list matches that name.</div>') + '</div>';
+      return html;
+    }
+
+    var lay = layMatch(q);
+    if (lay) {
+      var picks = ALL.filter(lay.test);
+      html += '<p class="countline"><b>' + picks.length + '</b> Indian ' + (picks.length === 1 ? 'option' : 'options') + ' for ' + esc(lay.label.toLowerCase()) + '</p>';
+      html += '<div class="banner"><span class="eyebrow">INDIAN GENERICS</span><p>' + esc(lay.label) +
+        ' — ' + picks.length + ' listings in the Jan Aushadhi lists, with the printed MRP.</p>' +
+        '<span class="cat">' + (prefs.lang === 'hi' ? 'यह चिकित्सीय सलाह नहीं है। अपने डॉक्टर का पर्चा मानें।' : 'This is not medical advice. Follow your doctor\'s prescription.') + '</span></div>';
+      html += '<div class="sec-head"><h2>' + esc(lay.label) + '</h2><span class="count">' + picks.length + '</span></div>';
+      html += '<div class="rows">' + picks.slice(0, 15).map(function (p) { return row(p); }).join('') + '</div>';
+      if (picks.length > 15) {
+        html += '<div class="wrap" style="padding-top:12px"><button class="btn wide" data-lay="' + esc(lay.label) + '">' + tr('Show more') + '</button></div>';
+      }
       return html;
     }
 
@@ -1255,6 +1332,10 @@ const META = {"githubUser": "vasudev-work"};
       '<button class="linkrow" id="youAdd">Add a medicine' + chev() + '</button>' +
       '<button class="linkrow" id="youReport">Report a listing' + chev() + '</button>' +
       '<a class="linkrow" href="legal.html">Legal, privacy and terms' + chev() + '</a></div>';
+
+    html += '<div class="block"><h2>Sources</h2>' +
+      '<a class="linkrow" href="sources/Jan-Aushadhi-Medicine-list-2023.pdf" download>Download the product list (PDF, 13.01.2023)' + chev() + '</a>' +
+      '<p class="tiny" style="margin-top:10px">Every medicine, price and therapeutic group on this page comes from that file. The skin care, protein and branded-price rows come from the sheets supplied for this build. A newer list may exist on janaushadhi.gov.in; when it is added here, the prices on this page change with it.</p></div>';
 
     html += '<div class="block"><h2>About</h2>' +
       '<p><strong style="color:var(--text)">' + PRODUCTS.length + '</strong> medicines · <strong style="color:var(--text)">' + SKIN.length + '</strong> skin, hair and oral care products · <strong style="color:var(--text)">' + NUTRITION.length + '</strong> protein products · <strong style="color:var(--text)">' + priced + '</strong> with a listed price · <strong style="color:var(--text)">' + Object.keys(groups).length + '</strong> therapeutic groups.</p>' +
@@ -1520,7 +1601,7 @@ const META = {"githubUser": "vasudev-work"};
 
   /* ---------------- events ---------------- */
   document.addEventListener('click', function (e) {
-    var t = e.target.closest('[data-nav],[data-chip],[data-detail],[data-star],[data-price],[data-compare],[data-report],[data-group],[data-form],[data-skin-group],[data-skin-all],[data-nutrition-all],[data-store],[data-suggest],[data-close],[data-theme-opt],[data-accent-opt],[data-lang-opt],[data-store-sheet]');
+    var t = e.target.closest('[data-nav],[data-chip],[data-detail],[data-star],[data-price],[data-compare],[data-report],[data-group],[data-form],[data-skin-group],[data-skin-all],[data-nutrition-all],[data-lay],[data-store],[data-suggest],[data-close],[data-theme-opt],[data-accent-opt],[data-lang-opt],[data-store-sheet]');
     if (!t) return;
 
     if (t.hasAttribute('data-close')) { closeSheets(); return; }
@@ -1557,6 +1638,16 @@ const META = {"githubUser": "vasudev-work"};
     if (t.hasAttribute('data-skin-group')) { applyFilter('skingroup', t.getAttribute('data-skin-group')); return; }
     if (t.hasAttribute('data-skin-all')) { applyFilter('skin', ''); return; }
     if (t.hasAttribute('data-nutrition-all')) { applyFilter('nutrition', ''); return; }
+    if (t.hasAttribute('data-lay')) {
+      var lab = t.getAttribute('data-lay');
+      var entry = LAY.filter(function (l) { return l.label === lab; })[0];
+      if (entry) {
+        state.lay = entry;
+        state.filter = { kind: 'lay', value: lab };
+        setView('medicines');
+      }
+      return;
+    }
     if (t.hasAttribute('data-form')) { applyFilter('form', t.getAttribute('data-form')); return; }
     if (t.hasAttribute('data-suggest')) { state.q = t.getAttribute('data-suggest'); renderSearch(); return; }
     if (t.hasAttribute('data-store-sheet')) { renderStoreOpts(); openSheet('sheetStore'); return; }

@@ -121,6 +121,24 @@ Each product is embedded as:
 
 Skin care products live in a second array, `SKIN`, with the same shape plus two extra keys: `src: "skin"` and, where the drug code also exists in the 2023 list, `off: { pr, pg, n }` holding the official price and page for the dual-source note. Their serial numbers start at 10001 so saved items from the two sets never collide.
 
+## The source PDF
+
+The list this page is built from ships with it, at `sources/Jan-Aushadhi-Medicine-list-2023.pdf`, and the **You → Sources** block links to it with a `download` attribute, so anyone can check a price against the original page.
+
+That file is the 13.01.2023 edition. The current PMBJP list lives behind `janaushadhi.gov.in`'s product API, which is served on port 8443 — a port this build environment's network policy blocks — and the site itself exposes no PDF path on 443. So the newer edition could not be pulled automatically. To update: drop the new PDF into `sources/`, run the parser, and the prices, counts and category counts all follow. Nothing else in the page is hard-coded to the 2023 numbers.
+
+## Search: brand names and everyday words
+
+Two different searches share one box.
+
+**Brand names** — `Crocin`, `Combiflam`, `Evion`, `Thyronorm` — hit the mapping table and come back with Indian alternatives, the therapeutic category, who owns the brand and the Jan Aushadhi price.
+
+**Everyday words** — `fever`, `acidity`, `sugar`, `BP`, `dandruff`, `deworming`, `eye`, `thyroid`, `protein`, and their Hinglish forms (`bukhar`, `dard`, `khansi`, `kabz`, `ulti`) — hit a lay-term table that maps the word to a filter over the listings. Searching `fever` returns 54 listings with printed MRPs, `acidity` returns 31, `dandruff` 13. **Show more** turns the result into a normal filtered list.
+
+A product search matches on name, pack size and therapeutic group, so `sanitary napkin 5` finds the five-pad pack, and `metformin 500` finds the strengths and combinations.
+
+The lay-term result carries the line "This is not medical advice. Follow your doctor's prescription." A symptom is not a diagnosis, and this page only prices what is listed.
+
 ## Pictures
 
 Every listing carries a drawing, generated in the page from the listing itself — never a photograph, never a downloaded image.
