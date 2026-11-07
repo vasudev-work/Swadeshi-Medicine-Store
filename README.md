@@ -48,6 +48,10 @@ Prices are the printed MRP from that list. They can change, and availability dif
 ```
 index.html            the whole store — markup, tokens, styles and app logic inline
 legal.html            privacy, terms, refunds, cookies, accessibility, security, disclosure
+404.html              same styling, links back to the store
+robots.txt            allows indexing, points at the sitemap
+sitemap.xml           the two real pages
+sources/              the Jan Aushadhi product list the data is parsed from
 .nojekyll             keeps GitHub Pages from running Jekyll over the files
 LICENSE               MIT
 README.md             this file
@@ -198,7 +202,13 @@ Both are plain email. There is no form endpoint, no server and no account.
 ## Themes and accessibility
 
 - Dark by default, plus Light and Black; accent in green, saffron or indigo. All three are CSS variables on `<html>`, applied live and remembered in `localStorage`.
-- Real `<button>` and `<a>` elements, visible focus rings, `aria-label` on icon-only buttons, 44px tap targets, dialogs with `aria-modal` and Escape to close, `prefers-reduced-motion` respected.
+- Real `<button>` and `<a>` elements, visible focus rings, `aria-label` on icon-only buttons, 44px tap targets.
+- A **Skip to content** link as the first tab stop.
+- Dialogs carry `aria-modal`, trap Tab inside the sheet, close on Escape, and **return focus to the control that opened them**.
+- Search results and list sizes are announced through a polite `role="status"` live region, so a screen-reader user hears "49 results for paracetamol" without moving focus.
+- Matched text is highlighted with `<mark>`, and the search field has a labelled clear button.
+- `prefers-reduced-motion` is respected, and a print stylesheet strips the navigation so a price list prints cleanly.
+- With JavaScript off, a `<noscript>` block explains the page and links to the source PDF and the legal page.
 - No emoji used as icons, no pill-shaped primary buttons, no purple gradients, no stock photography. A missing image becomes a coloured letter tile derived from the product name.
 
 ## What this page cannot do
@@ -209,6 +219,12 @@ Both are plain email. There is no form endpoint, no server and no account.
 - **It gives no medical advice.** Substitution and dosage are for a doctor or pharmacist. Every view carries "Information only. Always follow your doctor's prescription."
 - **It can only compare where the sheet prints a branded price.** For the 60 packs that have one, the compare sheet shows Jan Aushadhi price, branded price and the saving. For every other pack it says the branded price is not printed and shows no comparison, rather than inventing a number.
 - **It cannot show manufacturer or expiry.** Not in the source list.
+
+## Search behaviour worth knowing
+
+- Typing is debounced by 140 ms; every keystroke re-renders from the in-memory arrays, so there is no network call at any point.
+- A product match searches name, pack size and therapeutic group, so `sanitary napkin 5`, `10's` or `ophthalmic` all work.
+- Brand and lay-term matches take precedence over plain text matching, and both show a banner before the rows so the reader knows why they are seeing those results.
 
 ## Running it
 

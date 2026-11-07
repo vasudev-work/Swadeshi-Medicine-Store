@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://vasudev-work.github.io/Swadeshi-Medicine-Store/sitemap.xml

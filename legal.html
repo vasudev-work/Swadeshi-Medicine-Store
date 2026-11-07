@@ -4,8 +4,28 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#121212">
+<meta name="color-scheme" content="dark light">
 <title>Legal, privacy and terms — Swadeshi Medicine Store</title>
 <meta name="description" content="Privacy policy, terms, cookie statement, accessibility, security and responsible disclosure for the Swadeshi Medicine Store page.">
+<link rel="canonical" href="https://vasudev-work.github.io/Swadeshi-Medicine-Store/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Swadeshi Medicine Store">
+<meta property="og:title" content="Swadeshi Medicine Store — Jan Aushadhi prices and Indian generics">
+<meta property="og:description" content="2,026 medicines and 103 skin care and protein products from the Jan Aushadhi lists, with printed MRP, branded-price comparison and English/हिन्दी interface.">
+<meta property="og:url" content="https://vasudev-work.github.io/Swadeshi-Medicine-Store/">
+<meta property="og:locale" content="en_IN">
+<meta property="og:locale:alternate" content="hi_IN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Swadeshi Medicine Store">
+<meta name="twitter:description" content="Jan Aushadhi prices and Indian generics, searchable by brand or by everyday words like fever and acidity.">
+<meta name="robots" content="index,follow">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"Swadeshi Medicine Store",
+ "url":"https://vasudev-work.github.io/Swadeshi-Medicine-Store/",
+ "inLanguage":["en-IN","hi-IN"],
+ "description":"A static page listing Jan Aushadhi (PMBJP) medicines, skin care and protein products with printed MRP, brand-to-generic search and branded price comparison.",
+ "isAccessibleForFree":true}
+</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2301875F'/%3E%3Ctext x='32' y='44' font-size='34' font-family='sans-serif' font-weight='700' text-anchor='middle' fill='%23fff'%3E%E0%A4%B8%3C/text%3E%3C/svg%3E">
 <style>
 /* Swadeshi Medicine Store - single file stylesheet */
@@ -46,6 +66,18 @@ img{max-width:100%; display:block}
 button{font:inherit; color:inherit}
 a{color:var(--accent-strong)}
 :focus-visible{outline:2px solid var(--accent-strong); outline-offset:2px; border-radius:6px}
+.skip{
+  position:absolute; left:-9999px; top:8px; z-index:100;
+  background:var(--accent); color:var(--accent-ink); padding:10px 16px;
+  border-radius:10px; font-weight:700; text-decoration:none;
+}
+.skip:focus{left:12px}
+mark.hl{background:color-mix(in srgb, var(--accent) 35%, transparent); color:inherit; border-radius:4px; padding:0 1px}
+.clearq{
+  border:0; background:var(--surface2); color:var(--muted); width:28px; height:28px;
+  border-radius:50%; display:grid; place-items:center; cursor:pointer; flex:none;
+}
+.clearq:hover{color:var(--text)}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 
 /* ---------- top bar ---------- */
@@ -73,6 +105,8 @@ a{color:var(--accent-strong)}
   font-size:13px; font-weight:600; cursor:pointer;
 }
 .pill:hover{border-color:var(--accent)}
+.langbtn{display:none; min-width:44px; justify-content:center; font-weight:700}
+@media (min-width:900px){ .langbtn{display:inline-flex} }
 .icon-btn{
   width:44px; height:44px; flex:none; display:grid; place-items:center;
   border-radius:var(--r-pill); background:var(--surface2);
@@ -335,7 +369,7 @@ body.lang-hi .row .name,body.lang-hi .card h3{line-height:1.45}
   .promos{grid-template-columns:1fr 1fr; padding:14px 14px 4px}
   .carousel{
     display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr));
-    overflow:visible; padding:0 14px;
+    align-items:stretch; overflow:visible; padding:0 14px;
   }
   .card{flex:none}
   .catgrid{grid-template-columns:1fr 1fr}
@@ -354,6 +388,16 @@ body.lang-hi .row .name,body.lang-hi .card h3{line-height:1.45}
   .topbar .pill{padding:0 10px; font-size:12.5px}
   .topbar .pill svg:first-child{display:none}
   .brand-name{font-size:13.5px}
+}
+@media print{
+  .topbar,.tabbar,.sidenav,.chips,.promos,.scrim,.sheet,.skip,.clearq{display:none !important}
+  body{background:#fff; color:#000; padding:0}
+  .shell{display:block; max-width:none; padding:0}
+  .row,.card,.block{break-inside:avoid; border-color:#ccc; background:#fff; color:#000}
+  .row .sub,.tiny,.note-line{color:#444}
+  a{color:#000; text-decoration:underline}
+  .sec-head{padding-top:14px}
+  .carousel{display:grid; grid-template-columns:1fr 1fr; overflow:visible}
 }
 @media (prefers-reduced-motion:reduce){
   *{transition:none !important; animation:none !important}
